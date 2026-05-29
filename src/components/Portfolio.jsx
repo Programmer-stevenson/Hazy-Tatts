@@ -4,11 +4,11 @@ import Lightbox from "./Lightbox";
 
 const filters = [
   ["all", "All Work"],
+  ["illustrative", "Illustrative B&G"],
+  ["realism", "B&G Realism"],
+  ["traditional", "Traditional"],
   ["fine-line", "Fine Line"],
-  ["blackwork", "Blackwork"],
-  ["realism", "Realism"],
-  ["floral", "Floral"],
-  ["custom", "Custom"],
+  ["stippling", "Stippling"],
 ];
 
 export default function Portfolio() {

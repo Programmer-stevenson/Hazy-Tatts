@@ -1,10 +1,10 @@
 const services = [
-  ["01", "✦", "Custom Tattoos", "From concept to completion — fully bespoke designs crafted around your vision, personality, and placement.", "Starting from consultation →"],
-  ["02", "◈", "Fine Line Work", "Delicate, precise linework requiring exceptional skill. Portraits, botanical, geometric, and illustrative styles.", "Signature specialty →"],
-  ["03", "◇", "Sleeve Design", "Full and half sleeves designed as cohesive compositions — planned over multiple sessions for perfect harmony.", "Multi-session projects →"],
-  ["04", "✧", "Cover Ups", "Transform existing ink into something beautiful. Creative cover-up solutions that exceed expectations.", "Consultation required →"],
-  ["05", "⬡", "Floral & Botanical", "Lush, detailed floral compositions — roses, lotus, orchids, and custom botanical arrangements.", "A true specialty →"],
-  ["06", "◉", "Consultation", "One-on-one session to explore ideas, placement, sizing, and design direction before committing to ink.", "Book your session →"],
+  ["01", "✦", "Illustrative Black & Grey", "Hazey's signature — illustrative black and grey with depth, texture, and fine detail built around your concept.", "Signature specialty →"],
+  ["02", "◈", "Black & Grey Realism", "Realistic black and grey work capturing shadow, dimension, and lifelike detail.", "Detail-driven →"],
+  ["03", "◇", "Traditional", "Bold lines and timeless traditional designs made to age beautifully.", "Built to last →"],
+  ["04", "✧", "Fine Line", "Delicate, precise linework for subtle, intricate pieces.", "Precision work →"],
+  ["05", "⬡", "Stippling", "Dotwork shading and stippled texture for a soft, hand-rendered feel.", "Dotwork artistry →"],
+  ["06", "◉", "Consultation", "A relaxed one-on-one to talk through your idea, placement, and sizing before booking the tattoo.", "Book your session →"],
 ];
 
 export function Banner() {
@@ -20,6 +20,36 @@ export function Banner() {
 export default function Services() {
   return (
     <section id="services">
+      {/* Mobile-only: staggered 2-column "pyramid-ish" card layout */}
+      <style>{`
+        @media (max-width: 768px) {
+          .services-grid {
+            grid-template-columns: 1fr 1fr !important;
+            gap: 14px !important;
+            background: transparent !important;
+            padding-bottom: 34px;
+          }
+          .service-card {
+            border: 1px solid rgba(255,204,0,0.14) !important;
+            border-radius: 3px;
+            padding: 26px 18px !important;
+            background: rgba(255,255,255,0.02) !important;
+          }
+          /* Drop the right column to interlock with the left */
+          .service-card:nth-child(even) { transform: translateY(34px); }
+
+          .service-num { margin-bottom: 16px !important; }
+          .service-icon {
+            width: 40px !important; height: 40px !important;
+            margin-bottom: 16px !important; font-size: 1.1rem !important;
+          }
+          .service-title { font-size: 1.2rem !important; margin-bottom: 10px !important; }
+          .service-desc { font-size: 0.78rem !important; margin-bottom: 16px !important; }
+          /* No hover on touch — keep the tag visible */
+          .service-tag { opacity: 1 !important; transform: none !important; }
+        }
+      `}</style>
+
       <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
         <span className="section-tag reveal">✦ What We Offer</span>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: "20px", marginBottom: 0 }}>

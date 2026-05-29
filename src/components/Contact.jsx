@@ -8,6 +8,7 @@ export default function Contact() {
   const [btnText, setBtnText] = useState("Send Inquiry →");
   const [sending, setSending] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [flipped, setFlipped] = useState(false);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -23,7 +24,7 @@ export default function Contact() {
       if (data.success) {
         setSuccess(true);
         form.reset();
-        setBtnText("✦ Message Sent");
+        setBtnText("✦ Inquiry Sent");
       } else {
         setBtnText("Error — Try Again");
       }
@@ -36,88 +37,206 @@ export default function Contact() {
 
   return (
     <section id="contact">
-      <div className="contact-grid">
-        <div>
-          <span className="section-tag reveal">✦ Let's Connect</span>
-          <h2 className="section-title reveal reveal-delay-1">Book Your<br /><em>Session</em></h2>
-          <div className="gold-line reveal reveal-delay-2"></div>
-          <p className="section-body reveal reveal-delay-2">
-            Ready to start your tattoo journey? Fill out the form and Hazey will get back to you within 24–48 hours to discuss your vision.
+      <style>{`
+        .contact-flip { max-width: 1200px; margin: 0 auto; }
+
+        /* MOBILE (default): show one panel at a time */
+        .contact-flip .flip-back { display: none; }
+
+        /* Front info items in 2 columns on mobile for cleaner visuals */
+        .contact-info-grid {
+          display: grid; grid-template-columns: 1fr 1fr;
+          gap: 16px 20px; align-items: start;
+        }
+        .contact-info-grid .contact-info-item { margin-bottom: 0; }
+        /* Last item (Touch-Ups) spans both columns, centered underneath */
+        .contact-info-grid .contact-info-item:last-child {
+          grid-column: 1 / -1; text-align: center; margin-top: 20px;
+        }
+
+        /* Center the heading block on mobile */
+        .flip-front .section-tag,
+        .flip-front .section-title,
+        .flip-front .section-body { text-align: center; }
+        .flip-front .gold-line { margin-left: auto; margin-right: auto; }
+        .flip-front .section-body { margin-left: auto; margin-right: auto; }
+        .contact-flip.flipped .flip-front { display: none; }
+        .contact-flip.flipped .flip-back {
+          display: block;
+          animation: flipIn 0.5s ease both;
+        }
+        @keyframes flipIn {
+          from { transform: rotateY(-90deg); opacity: 0; }
+          to   { transform: rotateY(0deg);  opacity: 1; }
+        }
+
+        /* Glowing crimson tap-to-book button (mobile only) */
+        .flip-tap {
+          width: 100%; margin-top: 40px;
+          display: flex; align-items: center; justify-content: center; gap: 10px;
+          background: var(--crimson); color: #fff;
+          border: 1px solid rgba(255,80,80,0.5); border-radius: 4px;
+          padding: 20px 28px;
+          font-family: 'Jost', sans-serif; font-size: 0.85rem; font-weight: 500;
+          letter-spacing: 0.22em; text-transform: uppercase; cursor: none;
+          box-shadow: 0 0 18px rgba(164,22,26,0.6), 0 0 44px rgba(164,22,26,0.35);
+          animation: crimsonPulse 2.2s ease-in-out infinite;
+          transition: transform 0.2s ease;
+        }
+        .flip-tap:active { transform: scale(0.98); }
+        @keyframes crimsonPulse {
+          0%, 100% { box-shadow: 0 0 16px rgba(164,22,26,0.55), 0 0 34px rgba(164,22,26,0.30); }
+          50%      { box-shadow: 0 0 30px rgba(164,22,26,0.95), 0 0 64px rgba(164,22,26,0.55); }
+        }
+        .flip-back-btn {
+          background: none; border: none; color: var(--gold);
+          font-family: 'Jost', sans-serif; font-size: 0.7rem;
+          letter-spacing: 0.25em; text-transform: uppercase; cursor: none;
+          padding: 0; margin-bottom: 24px;
+          display: inline-flex; align-items: center; gap: 8px;
+        }
+
+        /* DESKTOP: 3-column layout — info text spans 2 cols, form in the 3rd */
+        @media (min-width: 769px) {
+          .contact-flip {
+            display: grid; grid-template-columns: 1fr 1fr 1.3fr;
+            gap: 40px 56px; align-items: start;
+          }
+          .contact-flip .flip-front { grid-column: 1 / span 2; }
+          .contact-flip .flip-back { grid-column: 3; align-self: end; }
+          .contact-flip .flip-front,
+          .contact-flip .flip-back { display: block !important; animation: none !important; }
+          .contact-info-grid { grid-template-columns: 1fr 1fr; gap: 18px 28px; }
+          .contact-info-grid .contact-info-item { margin-bottom: 0; }
+          .contact-info-grid .contact-info-item:last-child { grid-column: auto; text-align: left; margin-top: 0; }
+          .flip-front .section-tag,
+          .flip-front .section-title,
+          .flip-front .section-body { text-align: left; }
+          .flip-front .gold-line { margin-left: 0; margin-right: 0; }
+          .flip-front .section-body { margin-left: 0; margin-right: 0; }
+          .flip-tap, .flip-back-btn { display: none !important; }
+        }
+      `}</style>
+
+      <div className={"contact-flip" + (flipped ? " flipped" : "")}>
+
+        {/* FRONT — details (shown first) */}
+        <div className="flip-front">
+          <span className="section-tag">✦ Let's Connect</span>
+          <h2 className="section-title">Book Your<br /><em>Session</em></h2>
+          <div className="gold-line"></div>
+          <p className="section-body">
+            Ready to start your tattoo? Fill out the form and Hazey will get back to you within 24–48 hours to talk through your idea.
           </p>
 
-          <div style={{ marginTop: "48px" }} className="reveal reveal-delay-3">
+          <div className="contact-info-grid" style={{ marginTop: "48px" }}>
             <div className="contact-info-item">
-              <div className="contact-info-label">Location</div>
-              <div className="contact-info-val">Las Vegas, Nevada</div>
+              <div className="contact-info-label">Studio</div>
+              <div className="contact-info-val">Marauder Tattoo</div>
+              <div style={{ color: "var(--muted)", fontSize: "0.82rem", lineHeight: 1.7, marginTop: "4px" }}>
+                4700 S 900 E, Suite #36<br />Murray, UT 84117
+              </div>
             </div>
             <div className="contact-info-item">
               <div className="contact-info-label">Instagram</div>
-              <div className="contact-info-val">@tattoosbyhazey</div>
+              <div className="contact-info-val">@hazeytattoos</div>
+            </div>
+            <div className="contact-info-item">
+              <div className="contact-info-label">Email</div>
+              <div className="contact-info-val" style={{ fontSize: "1.1rem" }}>hello@hazeytattoos.com</div>
             </div>
             <div className="contact-info-item">
               <div className="contact-info-label">Booking Hours</div>
               <div className="contact-info-val">By Appointment Only</div>
             </div>
+            <div className="contact-info-item">
+              <div className="contact-info-label">Deposit</div>
+              <div style={{ color: "var(--muted)", fontSize: "0.82rem", lineHeight: 1.7 }}>
+                $100 non-refundable (also the shop minimum), collected via Venmo when your tattoo appointment is scheduled.
+              </div>
+            </div>
+            <div className="contact-info-item">
+              <div className="contact-info-label">Rates</div>
+              <div style={{ color: "var(--muted)", fontSize: "0.82rem", lineHeight: 1.7 }}>
+                Most pieces are priced per project. Multi-day sessions: $120 first hour, $110 each hour after.
+              </div>
+            </div>
+            <div className="contact-info-item">
+              <div className="contact-info-label">Touch-Ups</div>
+              <div style={{ color: "var(--muted)", fontSize: "0.82rem", lineHeight: 1.7 }}>
+                One free touch-up within one year of healing.
+              </div>
+            </div>
           </div>
 
-          <div className="social-row reveal reveal-delay-4">
-            <a href="#" className="social-btn" aria-label="Instagram">
-              <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" /></svg>
-            </a>
-            <a href="#" className="social-btn" aria-label="TikTok">
-              <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z" /></svg>
-            </a>
-            <a href="#" className="social-btn" aria-label="Pinterest">
-              <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.372-12 12 0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z" /></svg>
-            </a>
-          </div>
+          {/* Mobile-only: flip to the form */}
+          <button type="button" className="flip-tap" onClick={() => setFlipped(true)}>
+            ✦ Tap Here to Book →
+          </button>
         </div>
 
-        <div className="reveal reveal-delay-2">
+        {/* BACK — the form */}
+        <div className="flip-back">
+          <button type="button" className="flip-back-btn" onClick={() => setFlipped(false)}>← Back to details</button>
           <form className="contact-form" id="contact-form" ref={formRef} onSubmit={onSubmit}>
             {/* Web3Forms required fields */}
             <input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
-            <input type="hidden" name="subject" value="New Booking Inquiry — Tattoos By Hazey" />
-            <input type="hidden" name="from_name" value="Tattoos By Hazey Website" />
+            <input type="hidden" name="subject" value="New Booking Inquiry — Hazey Tattoos" />
+            <input type="hidden" name="from_name" value="Hazey Tattoos Website" />
             <input type="checkbox" name="botcheck" style={{ display: "none" }} />
+
+            <div className="form-group">
+              <input type="text" name="name" id="name" placeholder=" " required />
+              <label htmlFor="name">Name</label>
+            </div>
 
             <div className="form-row">
               <div className="form-group">
-                <input type="text" name="first_name" id="fname" placeholder=" " required />
-                <label htmlFor="fname">First Name</label>
+                <input type="email" name="email" id="email" placeholder=" " required />
+                <label htmlFor="email">Email</label>
               </div>
               <div className="form-group">
-                <input type="text" name="last_name" id="lname" placeholder=" " required />
-                <label htmlFor="lname">Last Name</label>
+                <input type="tel" name="phone" id="phone" placeholder=" " required />
+                <label htmlFor="phone">Phone</label>
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <input type="text" name="body_placement" id="placement" placeholder=" " required />
+                <label htmlFor="placement">Body Placement</label>
+              </div>
+              <div className="form-group">
+                <input type="text" name="approx_size" id="size" placeholder=" " required />
+                <label htmlFor="size">Approximate Size</label>
               </div>
             </div>
 
             <div className="form-group">
-              <input type="email" name="email" id="email" placeholder=" " required />
-              <label htmlFor="email">Email Address</label>
+              <textarea name="idea" id="idea" placeholder=" " required minLength={10}></textarea>
+              <label htmlFor="idea">Describe Your Idea</label>
             </div>
 
             <div className="form-group">
-              <input type="tel" name="phone" id="phone" placeholder=" " />
-              <label htmlFor="phone">Phone (optional)</label>
+              <input type="text" name="earliest_date" id="earliest" placeholder=" " />
+              <label htmlFor="earliest">Earliest You Can Come In (optional)</label>
             </div>
 
             <div className="form-group">
-              <select name="service" id="service" required defaultValue="" style={{ color: "var(--muted)" }}>
-                <option value="" disabled>Select a Service</option>
-                <option value="custom">Custom Tattoo</option>
-                <option value="fine-line">Fine Line Work</option>
-                <option value="sleeve">Sleeve Design</option>
-                <option value="cover-up">Cover Up</option>
-                <option value="floral">Floral & Botanical</option>
-                <option value="consultation">Consultation Only</option>
+              <select name="referral_source" id="referral" defaultValue="" style={{ color: "var(--muted)" }}>
+                <option value="">How'd you find me? (optional)</option>
+                <option value="Instagram">Instagram</option>
+                <option value="Google">Google</option>
+                <option value="Friend referral">Friend referral</option>
+                <option value="Walked past the shop">Walked past the shop</option>
+                <option value="Other">Other</option>
               </select>
             </div>
 
-            <div className="form-group">
-              <textarea name="message" id="message" placeholder=" " required></textarea>
-              <label htmlFor="message">Describe Your Idea & Placement</label>
-            </div>
+            <label style={{ display: "flex", alignItems: "center", gap: "10px", color: "var(--muted)", fontSize: "0.78rem", letterSpacing: "0.05em", cursor: "none" }}>
+              <input type="checkbox" name="email_subscribe" value="Yes" style={{ width: "16px", height: "16px", accentColor: "var(--gold)" }} />
+              Add me to the email list for openings &amp; flash drops
+            </label>
 
             <button type="submit" className="btn-gold" disabled={sending} style={{ width: "100%", justifyContent: "center", fontSize: "0.8rem", opacity: sending ? 0.7 : 1 }}>
               {btnText}
@@ -128,6 +247,7 @@ export default function Contact() {
             </div>
           </form>
         </div>
+
       </div>
     </section>
   );

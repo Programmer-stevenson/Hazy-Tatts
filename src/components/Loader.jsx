@@ -42,12 +42,27 @@ export default function Loader({ onDone }) {
 
   return (
     <div id="loader" className={hide ? "hide" : ""}>
+      <style>{`
+        .loader-h {
+          font-family: 'Cormorant Garamond', serif;
+          font-weight: 600;
+          fill: var(--crimson);
+          fill-opacity: 0;
+          stroke: var(--crimson);
+          stroke-width: 1.2;
+          stroke-dasharray: 1000;
+          stroke-dashoffset: 1000;
+          filter: drop-shadow(0 0 8px rgba(164,22,26,0.75));
+          animation: drawLine 2.2s ease forwards, hFill 1s ease 1.5s forwards;
+        }
+        @keyframes hFill { to { fill-opacity: 1; } }
+      `}</style>
       <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center", width: "200px", height: "200px" }}>
         <div className="loader-sparks" ref={sparksRef}></div>
         <svg className="loader-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="100" cy="100" r="88" stroke="#FFCC00" strokeWidth="0.5" opacity="0.2" />
           <circle cx="100" cy="100" r="78" stroke="#FFCC00" strokeWidth="0.3" opacity="0.1" />
-          <path className="loader-path" d="M60 60 L60 140 M60 100 L140 100 M140 60 L140 140" />
+          <text className="loader-h" x="100" y="140" textAnchor="middle" fontSize="120">H</text>
           <path className="loader-path loader-path-2" d="M40 40 L80 40 M120 40 L160 40 M40 160 L80 160 M120 160 L160 160" />
           <path d="M30 50 L30 30 L50 30" stroke="#FFCC00" strokeWidth="0.8" opacity="0.4" strokeDasharray="40" strokeDashoffset="40" style={{ animation: "drawLine 1s ease 1.8s forwards" }} />
           <path d="M170 50 L170 30 L150 30" stroke="#FFCC00" strokeWidth="0.8" opacity="0.4" strokeDasharray="40" strokeDashoffset="40" style={{ animation: "drawLine 1s ease 1.9s forwards" }} />
@@ -55,7 +70,7 @@ export default function Loader({ onDone }) {
           <path d="M170 150 L170 170 L150 170" stroke="#FFCC00" strokeWidth="0.8" opacity="0.4" strokeDasharray="40" strokeDashoffset="40" style={{ animation: "drawLine 1s ease 2.1s forwards" }} />
         </svg>
       </div>
-      <h1 className="loader-title">Tattoos, By Hazey</h1>
+      <h1 className="loader-title">Hazey Tattoos</h1>
       <p className="loader-sub">Crafting timeless ink.</p>
       <div className="loader-bar"><div className="loader-bar-fill"></div></div>
     </div>

@@ -1,24 +1,24 @@
-// ─── DATA + SVG ART (ported 1:1 from the original site) ───
+// ─── DATA + SVG ART (placeholder gallery for Hazey to replace with real photos) ───
 
 export const galleryData = [
-  { cat: "fine-line", name: "Botanical Grace", desc: "Delicate fine line floral arrangement on the forearm. Micro-detail botanical illustration.", colors: ["#1a1d21", "#222629", "#FFCC00"] },
-  { cat: "blackwork", name: "Shadow Mandala", desc: "Geometric blackwork mandala with intricate linework. Full back placement.", colors: ["#0d0f11", "#1a1a1a", "#333"] },
-  { cat: "realism", name: "Portrait Study", desc: "Photorealistic portrait in black and grey. Exceptional detail capture.", colors: ["#1a1d21", "#2a2a2a", "#444"] },
-  { cat: "floral", name: "Rose Cascade", desc: "Flowing rose design with fine detail petals and organic linework.", colors: ["#660708", "#1a1d21", "#FFCC00"] },
-  { cat: "custom", name: "Abstract Realm", desc: "Surrealist custom composition blending elements from client's vision.", colors: ["#222", "#A4161A", "#FFCC00"] },
-  { cat: "fine-line", name: "Celestial Map", desc: "Fine line star constellation with delicate dotwork shading.", colors: ["#0d0f11", "#1a2030", "#8899bb"] },
-  { cat: "blackwork", name: "Geometric Tiger", desc: "Bold blackwork geometric animal study with negative space technique.", colors: ["#111", "#222", "#555"] },
-  { cat: "floral", name: "Lotus Bloom", desc: "Ornate lotus composition with fine line detail and dotwork center.", colors: ["#1a1d21", "#FFCC00", "#660708"] },
-  { cat: "realism", name: "Eye of Detail", desc: "Hyper-realistic eye study with micro-detail iris work.", colors: ["#0d0f11", "#1a1d21", "#6699cc"] },
+  { cat: "illustrative", name: "Illustrative Raven", desc: "Illustrative black and grey raven with fine textural linework.", colors: ["#0d0f11", "#1a1d21", "#888"] },
+  { cat: "realism", name: "Portrait Study", desc: "Black and grey realism portrait with detailed shading.", colors: ["#1a1d21", "#2a2a2a", "#aaa"] },
+  { cat: "traditional", name: "Traditional Rose", desc: "Bold traditional rose with classic linework and solid shading.", colors: ["#161a1d", "#222629", "#999"] },
+  { cat: "fine-line", name: "Fine Line Botanical", desc: "Delicate fine line botanical piece with subtle detail.", colors: ["#1a1d21", "#222629", "#bbb"] },
+  { cat: "stippling", name: "Stippled Skull", desc: "Dotwork skull rendered entirely in stippling for soft gradients.", colors: ["#0d0f11", "#1a1a1a", "#999"] },
+  { cat: "illustrative", name: "Illustrative Serpent", desc: "Flowing illustrative black and grey serpent with organic linework.", colors: ["#161a1d", "#1a1d21", "#888"] },
+  { cat: "realism", name: "Eye of Detail", desc: "Hyper-realistic black and grey eye study with micro-detail iris work.", colors: ["#0d0f11", "#1a1d21", "#aaa"] },
+  { cat: "fine-line", name: "Fine Line Moth", desc: "Symmetrical fine line moth with delicate, restrained detail.", colors: ["#1a1d21", "#222629", "#bbb"] },
+  { cat: "traditional", name: "Traditional Dagger", desc: "Classic traditional dagger with bold black and grey rendering.", colors: ["#161a1d", "#222629", "#999"] },
 ];
 
 export const testimonials = [
   { text: "Hazey created the most beautiful fine line piece on my wrist. The detail is absolutely breathtaking — I get compliments every single day.", name: "Aria M.", stars: "★★★★★" },
   { text: "Professional, talented, and so thoughtful throughout the entire process. The studio is immaculate. Hazey is truly an artist in every sense.", name: "Jordan K.", stars: "★★★★★" },
   { text: "I was nervous about my first tattoo and Hazey made me feel completely at ease. The result exceeded every expectation I had.", name: "Serena L.", stars: "★★★★★" },
-  { text: "The floral sleeve design Hazey created for me is a masterpiece. People literally stop me on the street to ask about it.", name: "Maya R.", stars: "★★★★★" },
-  { text: "Cover-up work is an art form and Hazey is a master of it. What was once an embarrassing old tattoo is now my favorite thing about myself.", name: "Zoe T.", stars: "★★★★★" },
-  { text: "The fine line portrait of my grandmother is so realistic and detailed. I cried when I saw it. Truly a gift.", name: "Camille B.", stars: "★★★★★" },
+  { text: "The black and grey piece Hazey designed for me is a masterpiece. People literally stop me on the street to ask about it.", name: "Maya R.", stars: "★★★★★" },
+  { text: "Her illustrative work is unreal. The shading and detail are on another level — exactly what I hoped for and more.", name: "Zoe T.", stars: "★★★★★" },
+  { text: "The black and grey portrait Hazey did is so realistic and detailed. I cried when I saw it. Truly a gift.", name: "Camille B.", stars: "★★★★★" },
 ];
 
 // Returns an SVG string for a gallery item (identical patterns to the original).

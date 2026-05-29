@@ -26,7 +26,7 @@ export default function Navbar() {
   return (
     <>
       <nav id="navbar" className={scrolled ? "scrolled" : ""}>
-        <a href="#hero" className="nav-logo">Tattoos, <span>By Hazey</span></a>
+        <a href="#hero" className="nav-logo">Hazey <span>Tattoos</span></a>
         <ul className="nav-links">
           {links.map(([href, label]) => (
             <li key={href}><a href={href}>{label}</a></li>

@@ -33,9 +33,9 @@ export default function Hero() {
       </div>
 
       <div className="hero-content">
-        <span className="hero-tag">✦ Las Vegas, Nevada ✦</span>
+        <span className="hero-tag">✦ Murray, Utah ✦</span>
         <h1 className="hero-title">Where <em>Art</em><br />Meets Skin</h1>
-        <p className="hero-sub">Custom tattoo artistry — fine line, blackwork, realism, floral &amp; bespoke designs crafted with precision and care.</p>
+        <p className="hero-sub">Illustrative black &amp; grey tattoo artistry — traditional, fine line, stippling &amp; black and grey realism, crafted with precision and care.</p>
         <div className="hero-btns">
           <a href="#contact" className="btn-gold">Book Appointment</a>
           <a href="#portfolio" className="btn-outline">Explore Work</a>
