@@ -1,13 +1,59 @@
 const features = [
-  ["✦", "Custom Artistry", "Every design is original and tailored specifically to you."],
-  ["◈", "Safe Studio", "Fully licensed, sterile environment and premium inks."],
-  ["◇", "Fine Detail", "Micro-detail work and precision linework are a specialty."],
-  ["✧", "Client First", "Ongoing support from first consultation to healed ink."],
+  ["✦", "Illustrative Focus", "Specializing in illustrative black and grey with depth and fine detail."],
+  ["◈", "Marauder Tattoo", "Working out of a clean, licensed studio in Murray, Utah."],
+  ["◇", "Fine Art Roots", "A background in oil painting and calligraphy informs every piece."],
+  ["✧", "Client First", "Ongoing support from first consultation to a free healed touch-up."],
 ];
 
 export default function About() {
   return (
     <section id="about">
+      {/* Center the heading block on mobile only */}
+      <style>{`
+        @media (max-width: 768px) {
+          #about .about-text .section-tag,
+          #about .about-text .section-title,
+          #about .about-text .section-body { text-align: center; }
+          #about .about-text .gold-line { margin-left: auto; margin-right: auto; }
+
+          /* Feature blocks in 2 columns for a cleaner, elegant grid */
+          #about .about-features {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 22px 18px;
+          }
+          #about .about-feature { margin-bottom: 0; }
+        }
+
+        /* "Start Your Journey" — exact popup look: black bg, crimson border, red glow */
+        #about .about-cta-wrap { text-align: center; }
+        #about .about-cta {
+          display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+          background: rgba(13,15,17,0.95);
+          color: var(--text, #EDEDED);
+          border: 1px solid var(--crimson, #A4161A); border-radius: 6px;
+          padding: 18px 34px;
+          font-family: 'Jost', sans-serif; font-size: 0.78rem; font-weight: 500;
+          letter-spacing: 0.22em; text-transform: uppercase; text-decoration: none;
+          box-shadow: 0 0 22px rgba(164,22,26,0.45), 0 18px 40px rgba(0,0,0,0.5);
+          transition: box-shadow 0.3s ease, transform 0.2s ease, border-color 0.3s ease;
+          -webkit-tap-highlight-color: transparent;
+        }
+        /* Hover (desktop) */
+        @media (hover: hover) {
+          #about .about-cta:hover {
+            border-color: #ff4d4d;
+            box-shadow: 0 0 34px rgba(164,22,26,0.85), 0 0 70px rgba(164,22,26,0.5);
+            transform: translateY(-3px);
+          }
+        }
+        /* Tap / click glow (works on mobile too) */
+        #about .about-cta:active {
+          border-color: #ff4d4d;
+          box-shadow: 0 0 40px rgba(164,22,26,0.95), 0 0 80px rgba(164,22,26,0.6);
+          transform: scale(0.98);
+        }
+      `}</style>
+
       <div className="about-grid">
         <div className="about-visual reveal">
           <div className="about-frame">
@@ -26,8 +72,8 @@ export default function About() {
             </div>
           </div>
           <div className="about-stat">
-            <div className="about-stat-num">500+</div>
-            <div className="about-stat-label">Pieces Completed</div>
+            <div className="about-stat-num">6+</div>
+            <div className="about-stat-label">Years Tattooing</div>
           </div>
         </div>
 
@@ -36,10 +82,10 @@ export default function About() {
           <h2 className="section-title reveal reveal-delay-1">Precision.<br /><em>Passion.</em><br />Permanence.</h2>
           <div className="gold-line reveal reveal-delay-2"></div>
           <p className="section-body reveal reveal-delay-2">
-            Hazey is a luxury tattoo artist based in Las Vegas, specializing in fine line, blackwork, realism, and custom floral compositions. With a deep respect for the art form and an unwavering commitment to client experience, every session is crafted around your vision.
+            Hailey — known as Hazey — is a tattoo artist at Marauder Tattoo in Murray, Utah, just south of Salt Lake City. With six years tattooing and roughly a decade in the industry, she specializes in illustrative black and grey, alongside traditional, fine line, stippling, and black and grey realism.
           </p>
           <p className="section-body reveal reveal-delay-3" style={{ marginTop: "20px" }}>
-            A safe, sterile, and welcoming studio environment ensures comfort from consultation to aftercare. Because your skin deserves the very best.
+            Her work is grounded in fine art — a background in oil painting and calligraphy, and formal art study since 2014. Every session is built around your idea, with a clean, welcoming studio and care that lasts from consultation through a free healed touch-up.
           </p>
           <div className="about-features reveal reveal-delay-4">
             {features.map(([icon, label, text]) => (
@@ -52,8 +98,8 @@ export default function About() {
               </div>
             ))}
           </div>
-          <div style={{ marginTop: "36px" }} className="reveal reveal-delay-4">
-            <a href="#contact" className="btn-gold">Start Your Journey</a>
+          <div style={{ marginTop: "36px" }} className="about-cta-wrap">
+            <a href="#contact" className="about-cta">✦ Start Your Journey →</a>
           </div>
         </div>
       </div>

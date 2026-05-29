@@ -1,8 +1,50 @@
+import { useMemo } from "react";
+
 export default function Footer() {
+  // Floating particles like the hero. Kept modest (16); fewer show on mobile.
+  const particles = useMemo(
+    () =>
+      Array.from({ length: 16 }, (_, i) => {
+        const size = 1 + Math.random() * 3;
+        return {
+          crimson: i % 5 === 0,
+          style: {
+            left: `${Math.random() * 100}%`,
+            bottom: `${Math.random() * 30}%`,
+            width: `${size}px`,
+            height: `${size}px`,
+            animationDuration: `${9 + Math.random() * 14}s`,
+            animationDelay: `${Math.random() * 10}s`,
+          },
+        };
+      }),
+    []
+  );
+
   return (
-    <footer>
-      {/* Scoped styles for the pyramid layout + large Instagram button */}
+    <footer style={{ position: "relative", overflow: "hidden" }}>
       <style>{`
+        /* Hero-style crimson wash behind the footer */
+        .footer-bg {
+          position: absolute; inset: 0; z-index: 0; pointer-events: none;
+          background:
+            radial-gradient(ellipse 60% 80% at 80% 30%, rgba(102,7,8,0.28) 0%, transparent 60%),
+            radial-gradient(ellipse 55% 65% at 18% 80%, rgba(164,22,26,0.20) 0%, transparent 55%),
+            radial-gradient(ellipse 40% 50% at 50% 10%, rgba(164,22,26,0.10) 0%, transparent 60%);
+          animation: footerGlow 9s ease-in-out infinite;
+        }
+        @keyframes footerGlow {
+          0%, 100% { opacity: 0.8; }
+          50%      { opacity: 1; }
+        }
+        .footer-particles {
+          position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+        }
+        /* Keep footer content above the background layers */
+        footer > .footer-pyramid,
+        footer > .gold-divider,
+        footer > .footer-bottom { position: relative; z-index: 1; }
+
         .footer-pyramid {
           max-width: 1100px; margin: 0 auto 48px;
           display: flex; flex-direction: column; align-items: center;
@@ -16,13 +58,13 @@ export default function Footer() {
           display: flex; align-items: center; justify-content: center;
           border: 1px solid rgba(255,204,0,0.4);
           border-radius: 14px; color: var(--gold);
-          text-decoration: none; cursor: none;
+          text-decoration: none; cursor: pointer;
           transition: border-color 0.3s, color 0.3s, box-shadow 0.3s, transform 0.3s;
         }
         .footer-ig-big:hover {
-          border-color: var(--crimson);
-          color: var(--crimson);
-          box-shadow: 0 0 26px var(--crimson-glow);
+          border-color: var(--crimson, #A4161A);
+          color: var(--crimson, #A4161A);
+          box-shadow: 0 0 26px var(--crimson-glow, rgba(164,22,26,0.45));
           transform: translateY(-3px);
         }
 
@@ -35,8 +77,18 @@ export default function Footer() {
 
         @media (max-width: 600px) {
           .footer-base { gap: 36px; }
+          /* Lighten the load on mobile: show only the first 7 particles */
+          .footer-particles .particle:nth-child(n+8) { display: none; }
         }
       `}</style>
+
+      {/* Background layers */}
+      <div className="footer-bg"></div>
+      <div className="footer-particles">
+        {particles.map((p, i) => (
+          <div key={i} className={"particle" + (p.crimson ? " crimson" : "")} style={p.style}></div>
+        ))}
+      </div>
 
       <div className="footer-pyramid">
         {/* Apex */}

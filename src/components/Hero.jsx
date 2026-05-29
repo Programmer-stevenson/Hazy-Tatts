@@ -30,7 +30,6 @@ export default function Hero() {
         }
       `}</style>
       <div className="hero-bg"></div>
-      <div className="hero-grid"></div>
       <div className="hero-particles" id="hero-particles">
         {particles.map((p, i) => (
           <div key={i} className={"particle" + (p.crimson ? " crimson" : "")} style={p.style}></div>

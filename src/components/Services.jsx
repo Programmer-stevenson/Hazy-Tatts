@@ -20,8 +20,56 @@ export function Banner() {
 export default function Services() {
   return (
     <section id="services">
-      {/* Mobile-only: staggered 2-column "pyramid-ish" card layout */}
       <style>{`
+        /* Centered heading block (all screens) */
+        #services .services-head {
+          text-align: center; max-width: 640px; margin: 0 auto;
+        }
+        #services .services-head .section-tag { display: block; text-align: center; }
+        #services .services-head .section-title { text-align: center; margin: 0 auto 18px; }
+        #services .services-head .gold-line { margin: 18px auto 22px; }
+        #services .services-head p { margin: 0 auto; text-align: center; }
+
+        /* ── DESKTOP: compact, elegant 3 × 2 card grid ── */
+        @media (min-width: 769px) {
+          #services .services-grid {
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 18px !important;
+            background: transparent !important;
+            max-width: 1080px; margin: 56px auto 0;
+          }
+          #services .service-card {
+            position: relative; overflow: hidden;
+            padding: 30px 26px !important;
+            border: 1px solid rgba(255,204,0,0.15);
+            border-radius: 5px;
+            background: rgba(255,255,255,0.015);
+            transition: border-color 0.4s ease, transform 0.4s ease, background 0.4s ease;
+          }
+          #services .service-card:hover {
+            border-color: rgba(164,22,26,0.45);
+            transform: translateY(-5px);
+            background: rgba(164,22,26,0.04);
+          }
+          /* Number as a faint oversized watermark in the corner */
+          #services .service-num {
+            position: absolute; top: 10px; right: 16px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.6rem; line-height: 1;
+            color: var(--gold, #FFCC00); opacity: 0.10;
+            margin: 0 !important;
+          }
+          /* Icon + title sit on one row */
+          #services .service-icon {
+            width: 38px !important; height: 38px !important;
+            font-size: 1rem !important; margin-bottom: 16px !important;
+          }
+          #services .service-title { font-size: 1.18rem !important; margin-bottom: 12px !important; }
+          #services .service-desc { font-size: 0.8rem !important; line-height: 1.85 !important; margin-bottom: 16px !important; }
+          #services .service-tag { opacity: 1 !important; transform: none !important; }
+        }
+
+        /* ── MOBILE: staggered 2-column layout (unchanged) ── */
         @media (max-width: 768px) {
           .services-grid {
             grid-template-columns: 1fr 1fr !important;
@@ -35,9 +83,7 @@ export default function Services() {
             padding: 26px 18px !important;
             background: rgba(255,255,255,0.02) !important;
           }
-          /* Drop the right column to interlock with the left */
           .service-card:nth-child(even) { transform: translateY(34px); }
-
           .service-num { margin-bottom: 16px !important; }
           .service-icon {
             width: 40px !important; height: 40px !important;
@@ -45,16 +91,16 @@ export default function Services() {
           }
           .service-title { font-size: 1.2rem !important; margin-bottom: 10px !important; }
           .service-desc { font-size: 0.78rem !important; margin-bottom: 16px !important; }
-          /* No hover on touch — keep the tag visible */
           .service-tag { opacity: 1 !important; transform: none !important; }
         }
       `}</style>
 
       <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
-        <span className="section-tag reveal">✦ What We Offer</span>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: "20px", marginBottom: 0 }}>
-          <h2 className="section-title reveal reveal-delay-1" style={{ marginBottom: 0 }}>Premium<br /><em>Services</em></h2>
-          <p className="reveal reveal-delay-2" style={{ color: "var(--muted)", fontSize: "0.82rem", maxWidth: "340px", lineHeight: 2, textAlign: "right" }}>
+        <div className="services-head">
+          <span className="section-tag reveal">✦ What We Offer</span>
+          <h2 className="section-title reveal reveal-delay-1">Premium <em>Services</em></h2>
+          <div className="gold-line reveal reveal-delay-2"></div>
+          <p className="reveal reveal-delay-2" style={{ color: "var(--muted)", fontSize: "0.82rem", lineHeight: 2 }}>
             Each service is offered with a full consultation, custom design process, and aftercare guidance.
           </p>
         </div>

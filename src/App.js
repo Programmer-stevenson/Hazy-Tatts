@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Cursor from "./components/Cursor";
 import Loader from "./components/Loader";
 import Popup from "./components/Popup";
@@ -12,8 +12,6 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 
 export default function App() {
-  const [showPopup, setShowPopup] = useState(false);
-
   // Scroll reveal — same IntersectionObserver behavior as the original.
   useEffect(() => {
     const reveals = document.querySelectorAll(".reveal");
@@ -35,8 +33,8 @@ export default function App() {
   return (
     <>
       <Cursor />
-      <Loader onDone={() => setShowPopup(true)} />
-      <Popup show={showPopup} onClose={() => setShowPopup(false)} />
+      <Loader />
+      <Popup />
 
       <Navbar />
       <Hero />
