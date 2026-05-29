@@ -70,6 +70,20 @@ export default function Contact() {
           to   { transform: rotateY(0deg);  opacity: 1; }
         }
 
+        /* Harley watermark inside the "Describe Your Idea" textarea */
+        .idea-wrap { position: relative; }
+        .idea-watermark {
+          position: absolute; top: 50%; left: 50%;
+          transform: translate(-50%, -50%);
+          width: 120px; height: 120px; border-radius: 50%;
+          object-fit: cover; object-position: center 30%;
+          opacity: 0.16; pointer-events: none;
+          border: 1px solid rgba(255,204,0,0.35);
+          box-shadow: 0 0 18px rgba(164,22,26,0.25);
+          z-index: 0;
+        }
+        .idea-wrap textarea { position: relative; z-index: 1; background: transparent; }
+
         /* Glowing crimson tap-to-book button (mobile only) */
         .flip-tap {
           width: 100%; margin-top: 40px;
@@ -212,7 +226,8 @@ export default function Contact() {
               </div>
             </div>
 
-            <div className="form-group">
+            <div className="form-group idea-wrap">
+              <img className="idea-watermark" src="/harley.png" alt="" aria-hidden="true" />
               <textarea name="idea" id="idea" placeholder=" " required minLength={10}></textarea>
               <label htmlFor="idea">Describe Your Idea</label>
             </div>

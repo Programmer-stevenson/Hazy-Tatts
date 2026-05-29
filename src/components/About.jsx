@@ -1,8 +1,8 @@
 const features = [
-  ["✦", "Illustrative Focus", "Specializing in illustrative black and grey with depth and fine detail."],
-  ["◈", "Marauder Tattoo", "Working out of a clean, licensed studio in Murray, Utah."],
-  ["◇", "Fine Art Roots", "A background in oil painting and calligraphy informs every piece."],
-  ["✧", "Client First", "Ongoing support from first consultation to a free healed touch-up."],
+  ["wolf", "Illustrative Focus", "Specializing in illustrative black and grey with depth and fine detail."],
+  ["knight", "Marauder Tattoo", "Working out of a clean, licensed studio in Murray, Utah."],
+  ["moon", "Fine Art Roots", "A background in oil painting and calligraphy informs every piece."],
+  ["mermaid", "Client First", "Ongoing support from first consultation to a free healed touch-up."],
 ];
 
 export default function About() {
@@ -10,6 +10,18 @@ export default function About() {
     <section id="about">
       {/* Center the heading block on mobile only */}
       <style>{`
+        /* Logo images inside the feature icon slots (replace emojis) */
+        #about .about-feature-icon {
+          overflow: hidden;
+          width: 64px !important; height: 64px !important;
+          min-width: 64px; border-radius: 50%;
+          display: flex; align-items: center; justify-content: center;
+          border: 1px solid rgba(255,204,0,0.45);
+        }
+        #about .about-feature-img {
+          width: 84%; height: 84%; object-fit: contain;
+        }
+
         @media (max-width: 768px) {
           #about .about-text .section-tag,
           #about .about-text .section-title,
@@ -88,9 +100,11 @@ export default function About() {
             Her work is grounded in fine art — a background in oil painting and calligraphy, and formal art study since 2014. Every session is built around your idea, with a clean, welcoming studio and care that lasts from consultation through a free healed touch-up.
           </p>
           <div className="about-features reveal reveal-delay-4">
-            {features.map(([icon, label, text]) => (
+            {features.map(([logo, label, text]) => (
               <div className="about-feature" key={label}>
-                <div className="about-feature-icon">{icon}</div>
+                <div className="about-feature-icon">
+                  <img className="about-feature-img" src={`/${logo}.png`} alt="" aria-hidden="true" />
+                </div>
                 <div>
                   <div className="about-feature-label">{label}</div>
                   <div className="about-feature-text">{text}</div>
