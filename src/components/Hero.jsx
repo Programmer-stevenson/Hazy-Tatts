@@ -24,6 +24,11 @@ export default function Hero() {
 
   return (
     <section id="hero">
+      <style>{`
+        @media (max-width: 768px) {
+          #hero .hero-divider { display: none; }
+        }
+      `}</style>
       <div className="hero-bg"></div>
       <div className="hero-grid"></div>
       <div className="hero-particles" id="hero-particles">
