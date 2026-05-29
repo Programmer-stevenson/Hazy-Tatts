@@ -9,16 +9,6 @@ export default function Popup() {
     return () => clearTimeout(t);
   }, []);
 
-  // Close with the slide-out animation, then jump to the contact section.
-  const handleBook = (e) => {
-    e.preventDefault();
-    setShow(false);
-    setTimeout(() => {
-      const el = document.getElementById("contact");
-      if (el) el.scrollIntoView({ behavior: "smooth" });
-    }, 600); // matches the badge's transition duration
-  };
-
   return (
     <>
       <style>{`
@@ -84,7 +74,7 @@ export default function Popup() {
         <div>
           <div className="booking-badge-tag">✦ Limited Bookings Available</div>
           <div className="booking-badge-title">Ready for your next piece?</div>
-          <a href="#contact" className="booking-badge-cta" onClick={handleBook}>Book a consultation →</a>
+          <a href="#contact" className="booking-badge-cta">Book a consultation →</a>
         </div>
         <button className="booking-badge-close" aria-label="Dismiss" onClick={() => setShow(false)}>✕</button>
       </div>

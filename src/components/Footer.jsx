@@ -79,6 +79,10 @@ export default function Footer() {
           .footer-base { gap: 36px; }
           /* Lighten the load on mobile: show only the first 7 particles */
           .footer-particles .particle:nth-child(n+8) { display: none; }
+          /* Center the bottom copyright + Instagram link, stacked */
+          footer > .footer-bottom { flex-direction: column; align-items: center; text-align: center; gap: 12px; }
+          footer > .footer-bottom .footer-copy { text-align: center; width: 100%; }
+          footer > .footer-bottom .footer-social { justify-content: center; width: 100%; text-align: center; }
         }
       `}</style>
 

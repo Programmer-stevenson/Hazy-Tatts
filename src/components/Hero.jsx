@@ -46,10 +46,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="hero-divider">
-        <span>Scroll</span>
-        <div className="scroll-line"></div>
-      </div>
+      
     </section>
   );
 }
