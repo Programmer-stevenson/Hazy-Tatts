@@ -857,3 +857,38 @@
 
 /* A couple of crimson hero particles handled in JS via .particle.crimson */
 .particle.crimson { background: var(--crimson) !important; box-shadow: 0 0 6px var(--crimson); }
+html {
+  background: var(--graphite);   /* same as body, so any gap matches */
+}
+html, body, #root {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+#root {
+  overflow: hidden;   /* contains any escaping top margin */
+}
+/* ── TOP-GAP FIX (place at very end of your CSS) ───────────────
+   Belt-and-suspenders: match the html background to the page so
+   any sliver is invisible, zero out wrapper spacing, and stop the
+   first child's margin from collapsing through the top. */
+
+html {
+  background: var(--graphite);   /* any peeking gap now matches the page */
+}
+
+html, body, #root {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Margin-collapse is the usual cause: the first section/nav's top
+   margin escapes and pushes everything down. A 1px transparent
+   border on #root traps it without affecting layout or fixed els. */
+#root {
+  border-top: 1px solid transparent;
+}
+
+/* Make sure the very first thing in the app has no top margin. */
+#root > *:first-child {
+  margin-top: 0 !important;
+}
