@@ -33,11 +33,12 @@ export default function App() {
 
   return (
     <>
+    <Navbar />
       <Cursor />
       <Loader />
       <Popup />
       
-      <Navbar />
+      
       <Hero />
       <Ribbon/>
       <Portfolio />
