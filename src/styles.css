@@ -845,24 +845,50 @@
 
 
 /* ════════════════════════════════════════════════════════════
-   TOP-GAP FIX (final) — iOS status-bar color-seam fix.
-   The top "gap" is a COLOR SEAM in the iPhone safe-area region,
-   not empty space. body/html bg (#161A1D graphite) met the darker
-   navbar (#0D0F11) at the status bar, creating a faint two-tone
-   band. Desktop has no safe-area inset, so it never showed there.
-   Fix: paint html + the status-bar inset with the dark #0D0F11
-   tone so the inset and navbar read as one solid color.
+   TOP-GAP / STATUS-BAR FIX (final v2)
+
+   Symptom: on iOS, the area above the navbar was see-through —
+   while scrolling you could see the page through the translucent
+   navbar in the status-bar region. A separate background layer
+   didn't help because the navbar's backdrop-filter creates its own
+   stacking context.
+
+   Fix: extend the NAVBAR itself up to the real top of the screen.
+   Give it top padding equal to the iOS safe-area inset and a solid
+   (opaque) background so its own bar fills the status-bar zone and
+   nothing shows through. Logo/links stay below the status bar
+   because the inset is added as PADDING, not by moving content up.
    ════════════════════════════════════════════════════════════ */
+
 html { background: #0D0F11; }
 html, body, #root { margin: 0 !important; padding: 0 !important; }
 #root > *:first-child { margin-top: 0 !important; }
 
-body::after {
+/* Navbar grows upward into the safe area and stays solid up there. */
+nav {
+  top: 0 !important;
+  /* push the bar's CONTENT below the status bar... */
+  padding-top: env(safe-area-inset-top, 0px) !important;
+  /* ...and make the bar that tall so its background fills the inset */
+  height: calc(72px + env(safe-area-inset-top, 0px)) !important;
+  box-sizing: border-box;
+}
+
+/* Before you scroll (not .scrolled), the navbar is normally see-through
+   by design. To stop the status bar showing the page, give the inset
+   zone a solid backing at all times via a pseudo-element on the nav
+   that ONLY covers the safe-area strip. */
+nav::before {
   content: "";
-  position: fixed;
+  position: absolute;
   top: 0; left: 0; right: 0;
   height: env(safe-area-inset-top, 0px);
-  background: #0D0F11;
-  z-index: 100000;
-  pointer-events: none;
+  background: #0D0F11;     /* solid, opaque — never transparent */
+  z-index: -1;
+}
+
+/* When scrolled, make the whole bar opaque enough that page content
+   can't be seen through it in the status-bar area. */
+nav.scrolled {
+  background: rgba(13,15,17,0.96) !important;
 }
