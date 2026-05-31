@@ -845,11 +845,24 @@
 
 
 /* ════════════════════════════════════════════════════════════
-   TOP-GAP FIX — single consolidated block (replaces the earlier
-   duplicated/conflicting versions). No overflow:hidden on #root,
-   no transparent top-border. Just: match html bg, zero wrappers,
-   and absorb the iOS safe-area inset so the top sits flush.
+   TOP-GAP FIX (final) — iOS status-bar color-seam fix.
+   The top "gap" is a COLOR SEAM in the iPhone safe-area region,
+   not empty space. body/html bg (#161A1D graphite) met the darker
+   navbar (#0D0F11) at the status bar, creating a faint two-tone
+   band. Desktop has no safe-area inset, so it never showed there.
+   Fix: paint html + the status-bar inset with the dark #0D0F11
+   tone so the inset and navbar read as one solid color.
    ════════════════════════════════════════════════════════════ */
-html { background: var(--graphite); }
+html { background: #0D0F11; }
 html, body, #root { margin: 0 !important; padding: 0 !important; }
 #root > *:first-child { margin-top: 0 !important; }
+
+body::after {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: env(safe-area-inset-top, 0px);
+  background: #0D0F11;
+  z-index: 100000;
+  pointer-events: none;
+}
