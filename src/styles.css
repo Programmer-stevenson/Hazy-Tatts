@@ -845,32 +845,27 @@
 
 
 /* ════════════════════════════════════════════════════════════
-   iOS TOP STATUS-BAR FIX (final, minimal)
+   NAVBAR TOP FIX (nav-only)
 
-   The strip under the clock showed page content through the navbar
-   (the navbar is transparent until you scroll). This adds a fixed,
-   opaque backing over the status-bar inset + navbar height so the
-   top stays solid — at page top AND while scrolling. Uses ::after
-   so it does NOT clobber the grain overlay on body::before.
+   The navbar is fixed at top:0 but only 72px tall and transparent
+   until scroll, so on iOS the status-bar strip shows the page
+   behind it. Fix: make the navbar tall enough to include the
+   safe-area inset, give it a SOLID background at all times, and
+   pad its content down so the logo/menu sit below the status bar.
    ════════════════════════════════════════════════════════════ */
 
 html, body, #root { margin: 0 !important; padding: 0 !important; }
-html { background: #0D0F11; }
 
-body::after {
-  content: "";
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  height: calc(72px + env(safe-area-inset-top, 0px));
-  background: #0D0F11;
-  z-index: 998;            /* under nav contents (z1000), over page */
-  pointer-events: none;
-}
-
-/* Push navbar content below the status bar so it isn't under the clock */
 nav {
   top: 0 !important;
   height: calc(72px + env(safe-area-inset-top, 0px)) !important;
   padding-top: env(safe-area-inset-top, 0px) !important;
   box-sizing: border-box !important;
+  background: #0D0F11 !important;          /* solid, even before scroll */
+}
+
+/* When scrolled, keep it solid (was translucent rgba .85) */
+nav.scrolled {
+  background: rgba(13,15,17,0.98) !important;
+  backdrop-filter: blur(20px);
 }
