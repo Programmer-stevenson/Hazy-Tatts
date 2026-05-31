@@ -10,7 +10,7 @@ import Services, { Banner } from "./components/Services";
 import Testimonials from "./components/Testimonials";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
-//import Ribbon from "./components/Ribbon";
+import Ribbon from "./components/Ribbon";
 
 export default function App() {
   // Scroll reveal — same IntersectionObserver behavior as the original.
@@ -40,7 +40,7 @@ export default function App() {
       
       
       <Hero />
-     
+      <Ribbon/>
       <Portfolio />
       <About />
       <Banner />
