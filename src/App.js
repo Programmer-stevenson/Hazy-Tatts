@@ -41,10 +41,11 @@ export default function App() {
       
       <Hero />
       <Ribbon/>
-      <Portfolio />
       <About />
-      <Banner />
+      <Portfolio />
       <Services />
+      <Banner />
+      
       <Testimonials />
       <Contact />
       <Footer />

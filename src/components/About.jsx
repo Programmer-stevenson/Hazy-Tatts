@@ -74,8 +74,14 @@ export default function About() {
           #about .about-feature { margin-bottom: 0; }
         }
 
+        /* CTA row: two buttons sitting side by side, wrapping on small screens */
+        #about .about-cta-wrap {
+          text-align: center;
+          display: flex; flex-wrap: wrap; gap: 14px;
+          align-items: center; justify-content: center;
+        }
+
         /* "Start Your Journey" — exact popup look: black bg, crimson border, red glow */
-        #about .about-cta-wrap { text-align: center; }
         #about .about-cta {
           display: inline-flex; align-items: center; justify-content: center; gap: 10px;
           background: rgba(13,15,17,0.95);
@@ -100,6 +106,32 @@ export default function About() {
         #about .about-cta:active {
           border-color: #ff4d4d;
           box-shadow: 0 0 40px rgba(164,22,26,0.95), 0 0 80px rgba(164,22,26,0.6);
+          transform: scale(0.98);
+        }
+
+        /* "View My Work" — gold-themed sibling so the two read as a pair */
+        #about .about-cta-gold {
+          display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+          background: rgba(13,15,17,0.95);
+          color: var(--text, #EDEDED);
+          border: 1px solid rgba(255,204,0,0.55); border-radius: 6px;
+          padding: 18px 34px;
+          font-family: 'Jost', sans-serif; font-size: 0.78rem; font-weight: 500;
+          letter-spacing: 0.22em; text-transform: uppercase; text-decoration: none;
+          box-shadow: 0 0 22px rgba(255,204,0,0.25), 0 18px 40px rgba(0,0,0,0.5);
+          transition: box-shadow 0.3s ease, transform 0.2s ease, border-color 0.3s ease;
+          -webkit-tap-highlight-color: transparent;
+        }
+        @media (hover: hover) {
+          #about .about-cta-gold:hover {
+            border-color: #FFCC00;
+            box-shadow: 0 0 34px rgba(255,204,0,0.55), 0 0 70px rgba(255,204,0,0.3);
+            transform: translateY(-3px);
+          }
+        }
+        #about .about-cta-gold:active {
+          border-color: #FFCC00;
+          box-shadow: 0 0 40px rgba(255,204,0,0.65), 0 0 80px rgba(255,204,0,0.4);
           transform: scale(0.98);
         }
       `}</style>
@@ -150,6 +182,7 @@ export default function About() {
             ))}
           </div>
           <div style={{ marginTop: "36px" }} className="about-cta-wrap">
+            <a href="#portfolio" className="about-cta-gold">✦ View My Work →</a>
             <a href="#contact" className="about-cta">✦ Start Your Journey →</a>
           </div>
         </div>

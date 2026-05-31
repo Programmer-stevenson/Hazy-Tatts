@@ -14,13 +14,13 @@ const filters = [
 // exact same filenames. Order matters: the first 4 are the featured pieces
 // shown before "Show More".
 const customPieces = [
-  // ── Featured (best work) — these lead the gallery ──
+  // -- Featured (best work) -- these lead the gallery --
   { img: "/ninjacat.jpg",          name: "Masked Dagger",       cat: "illustrative" },
   { img: "/bgskeles.jpg",          name: "The Lovers",          cat: "illustrative" },
   { img: "/bgsnake.jpg",           name: "Serpent & Blossoms",  cat: "illustrative" },
   { img: "/bgangel.jpg",           name: "Angel Statue",        cat: "realism" },
 
-  // ── Illustrative B&G ──
+  // -- Illustrative B&G --
   { img: "/crow.jpg",              name: "Raven in Flight",     cat: "illustrative" },
   { img: "/monkeybox.jpg",         name: "Boxing Monkey",       cat: "illustrative" },
   { img: "/bg_lilly.jpg",          name: "Black & Grey Peony",  cat: "illustrative" },
@@ -35,7 +35,7 @@ const customPieces = [
   { img: "/bgfrogandshroom.jpg",   name: "Frog & Toadstool",    cat: "illustrative" },
   { img: "/bgflowers.jpg",         name: "Paw & Blossoms",      cat: "illustrative" },
 
-  // ── Traditional ──
+  // -- Traditional --
   { img: "/colorskullflower.jpg",  name: "Skull Bloom",         cat: "traditional" },
   { img: "/colorking.jpg",         name: "The King",            cat: "traditional" },
   { img: "/colorjaderock.jpg",     name: "Moonlit Crystal",     cat: "traditional" },
@@ -53,7 +53,7 @@ const customPieces = [
   { img: "/heartmoon.jpg",         name: "Heart Moon",          cat: "traditional" },
   { img: "/colorkang.jpg",         name: "Boxing Kangaroo",     cat: "traditional" },
 
-  // ── Fine line ──
+  // -- Fine line --
   { img: "/spruzzy.jpg",           name: "Soot Sprite",         cat: "fine-line" },
   { img: "/heartlocks.jpg",        name: "Linked Hearts",       cat: "fine-line" },
   { img: "/bgswirls.jpg",          name: "Botanical Spiral",    cat: "fine-line" },
@@ -61,7 +61,7 @@ const customPieces = [
   { img: "/finelinedeer.jpg",      name: "Resting Fawn",        cat: "fine-line" },
   { img: "/finelinegrass.jpg",     name: "Mantis 'Girl Dinner'",cat: "fine-line" },
 
-  // ── Stippling ──
+  // -- Stippling --
   { img: "/grail.jpg",             name: "The Chalice",         cat: "stippling" },
   { img: "/timburton.jpg",         name: "Kodama Spirits",      cat: "stippling" },
   { img: "/bgstars.jpg",           name: "Dotwork Mandala",     cat: "stippling" },
@@ -77,6 +77,22 @@ export default function Portfolio() {
   const handleFilter = (key) => {
     setActive(key);
     setShowAll(false); // reset pagination when switching tabs
+    window.dispatchEvent(new CustomEvent("gallery-expanded", { detail: { open: false } }));
+  };
+
+  // Fire a window event so other components (e.g. the booking Popup)
+  // can react to the gallery expanding/collapsing.
+  const setExpanded = (open) => {
+    setShowAll(open);
+    window.dispatchEvent(new CustomEvent("gallery-expanded", { detail: { open } }));
+  };
+
+  // Collapse the gallery AND jump back up to the top of the portfolio
+  // section, so the user isn't left stranded far down the page.
+  const collapse = () => {
+    setExpanded(false);
+    const el = document.getElementById("portfolio");
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   // Only real photos now (placeholder art removed).
@@ -99,7 +115,7 @@ export default function Portfolio() {
       <style>{`
         /* Make every gallery tile the same size so the grid looks even */
         #portfolio .gallery-placeholder {
-          aspect-ratio: 1 / 1;   /* square tiles — change to 4 / 5 for portrait */
+          aspect-ratio: 1 / 1;   /* square tiles -- change to 4 / 5 for portrait */
           width: 100%;
           overflow: hidden;
         }
@@ -111,9 +127,7 @@ export default function Portfolio() {
           display: block;
         }
 
-        /* Glowing border on every gallery tile (works on mobile + desktop).
-           Swap the gold values for crimson by replacing 255,204,0 with
-           164,22,26 and #FFCC00 with #A4161A. */
+        /* Glowing border on every gallery tile (works on mobile + desktop). */
         #portfolio .gallery-item {
           border-radius: 10px;
           border: 1px solid rgba(255,204,0,0.45);
@@ -123,7 +137,6 @@ export default function Portfolio() {
         #portfolio .gallery-item .gallery-placeholder {
           border-radius: 10px;
         }
-        /* Stronger glow on hover (desktop) */
         @media (hover: hover) {
           #portfolio .gallery-item:hover {
             border-color: #FFCC00;
@@ -131,10 +144,49 @@ export default function Portfolio() {
             transform: translateY(-3px);
           }
         }
-        /* Tap feedback (mobile) */
         #portfolio .gallery-item:active {
           border-color: #FFCC00;
           box-shadow: 0 0 32px rgba(255,204,0,0.65);
+        }
+
+        /* -- Floating "collapse" button -- follows you while expanded --
+           Only rendered when the gallery is expanded. Fixed to the
+           bottom-center of the screen so you can close from anywhere
+           without scrolling to the very end. Respects the iOS safe area. */
+        .gallery-collapse-fab {
+          position: fixed;
+          left: 22px;
+          bottom: calc(22px + env(safe-area-inset-bottom, 0px));
+          z-index: 9990;
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          background: rgba(13,15,17,0.92);
+          color: var(--text, #EDEDED);
+          border: 1px solid rgba(255,204,0,0.55);
+          border-radius: 999px;
+          padding: 13px 26px;
+          font-family: 'Jost', sans-serif;
+          font-size: 0.72rem;
+          font-weight: 500;
+          letter-spacing: 0.22em;
+          text-transform: uppercase;
+          cursor: pointer;
+          backdrop-filter: blur(10px);
+          box-shadow: 0 0 22px rgba(255,204,0,0.25), 0 14px 36px rgba(0,0,0,0.5);
+          transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease, opacity 0.3s ease;
+          animation: fab-rise 0.35s ease both;
+        }
+        .gallery-collapse-fab:hover {
+          border-color: #FFCC00;
+          box-shadow: 0 0 30px rgba(255,204,0,0.45), 0 14px 36px rgba(0,0,0,0.5);
+        }
+        .gallery-collapse-fab:active {
+          transform: translateY(1px);
+        }
+        @keyframes fab-rise {
+          from { opacity: 0; transform: translateY(16px); }
+          to   { opacity: 1; transform: translateY(0); }
         }
       `}</style>
 
@@ -145,7 +197,7 @@ export default function Portfolio() {
         </h2>
         <div className="gold-line"></div>
         <p style={{ color: "var(--muted)", fontSize: "0.85rem", letterSpacing: "0.1em", maxWidth: "480px", margin: "0 auto", lineHeight: 2 }}>
-          Each piece is a collaboration between artist and client — permanent, intentional, timeless.
+          Each piece is a collaboration between artist and client -- permanent, intentional, timeless.
         </p>
       </div>
 
@@ -184,7 +236,7 @@ export default function Portfolio() {
       {hasMore && (
         <div style={{ textAlign: "center", marginTop: "40px" }}>
           <button
-            onClick={() => setShowAll((v) => !v)}
+            onClick={() => setExpanded(!showAll)}
             style={{
               display: "inline-flex",
               alignItems: "center",
@@ -214,6 +266,18 @@ export default function Portfolio() {
             {showAll ? "Show Less ✦" : `Show More ✦ (${filtered.length - INITIAL_COUNT})`}
           </button>
         </div>
+      )}
+
+      {/* Floating collapse button -- only while expanded, so the user can
+          close the gallery from anywhere without scrolling to the bottom. */}
+      {showAll && (
+        <button
+          className="gallery-collapse-fab"
+          onClick={collapse}
+          aria-label="Collapse gallery"
+        >
+          Collapse Gallery ✦
+        </button>
       )}
 
       <Lightbox data={lightbox} onClose={() => setLightbox(null)} />

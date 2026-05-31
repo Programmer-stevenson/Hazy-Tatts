@@ -2,12 +2,25 @@ import { useEffect, useState } from "react";
 
 export default function Popup() {
   const [show, setShow] = useState(false);
+  const [galleryOpen, setGalleryOpen] = useState(false);
 
   // Slide in shortly after load.
   useEffect(() => {
     const t = setTimeout(() => setShow(true), 2000);
     return () => clearTimeout(t);
   }, []);
+
+  // Listen for the Portfolio gallery expanding/collapsing. When it's
+  // expanded we hide the badge so it doesn't cover the floating
+  // "Collapse" button (the badge spans full width on mobile).
+  useEffect(() => {
+    const onGallery = (e) => setGalleryOpen(!!(e.detail && e.detail.open));
+    window.addEventListener("gallery-expanded", onGallery);
+    return () => window.removeEventListener("gallery-expanded", onGallery);
+  }, []);
+
+  // Badge is visible only when it has slid in AND the gallery isn't expanded.
+  const visible = show && !galleryOpen;
 
   return (
     <>
@@ -23,8 +36,9 @@ export default function Popup() {
           max-width: 280px;
           transform: translateY(140%); opacity: 0;
           transition: transform 0.6s cubic-bezier(0.4,0.2,0.2,1), opacity 0.6s ease;
+          pointer-events: none;
         }
-        .booking-badge.show { transform: translateY(0); opacity: 1; }
+        .booking-badge.show { transform: translateY(0); opacity: 1; pointer-events: auto; }
 
         .booking-badge-tag {
           font-family: 'Jost', sans-serif; font-size: 0.6rem;
@@ -70,7 +84,7 @@ export default function Popup() {
 
       `}</style>
 
-      <div className={"booking-badge" + (show ? " show" : "")}>
+      <div className={"booking-badge" + (visible ? " show" : "")}>
         <div>
           <div className="booking-badge-tag">✦ Limited Bookings Available</div>
           <div className="booking-badge-title">Ready for your next piece?</div>

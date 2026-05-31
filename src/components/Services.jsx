@@ -38,7 +38,11 @@ export default function Services() {
         }
         #services .service-card:hover .service-icon-img { transform: scale(1.1); }
 
-        /* ── DESKTOP: compact, elegant 3 × 2 card grid ── */
+        /* ── DESKTOP: compact 3 × 2 grid, SAME crimson/gold checkerboard,
+             with INVERTED hover glow (crimson cards glow gold on hover,
+             gold cards glow crimson). 3-col grid so the per-row flip uses
+             a 6-step cycle: positions 1,5,6 = crimson ; 2,3,4 = gold,
+             which gives crimson/gold/gold · crimson/crimson/gold rows. ── */
         @media (min-width: 769px) {
           #services .services-grid {
             grid-template-columns: repeat(3, 1fr) !important;
@@ -49,18 +53,60 @@ export default function Services() {
           #services .service-card {
             position: relative; overflow: hidden;
             padding: 30px 26px !important;
-            border: 1px solid rgba(164,22,26,0.45);
             border-radius: 5px;
-            background: rgba(164,22,26,0.05);
             transition: border-color 0.4s ease, transform 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
           }
-          #services .service-card:hover,
-          #services .service-card:active {
-            border-color: rgba(255,204,0,0.6);
-            transform: translateY(-5px);
-            background: rgba(255,204,0,0.06);
-            box-shadow: 0 0 22px rgba(255,204,0,0.25);
+          #services .service-card:hover { transform: translateY(-5px); }
+
+          /* DESKTOP is a 3-column grid. Pattern:
+               Row 1:  crimson  yellow  crimson
+               Row 2:  yellow   crimson yellow
+             That's simply odd = crimson, even = yellow. */
+
+          /* CRIMSON cards (odd: 1,3,5) */
+          #services .service-card:nth-child(odd) {
+            border: 1px solid rgba(164,22,26,0.45);
+            background: rgba(164,22,26,0.05);
           }
+          #services .service-card:nth-child(odd) .service-icon {
+            border-color: rgba(164,22,26,0.6) !important; color: var(--crimson, #A4161A) !important;
+          }
+          #services .service-card:nth-child(odd) .service-tag {
+            color: var(--crimson, #A4161A) !important;
+          }
+          /* crimson card hover → GOLD glow (inverted) */
+          #services .service-card:nth-child(odd):hover {
+            border-color: rgba(255,204,0,0.7);
+            background: rgba(255,204,0,0.06);
+            box-shadow: 0 0 26px rgba(255,204,0,0.45);
+          }
+          #services .service-card:nth-child(odd):hover .service-icon,
+          #services .service-card:nth-child(odd):hover .service-tag {
+            color: var(--gold, #FFCC00) !important; border-color: rgba(255,204,0,0.7) !important;
+          }
+
+          /* GOLD cards (even: 2,4,6) */
+          #services .service-card:nth-child(even) {
+            border: 1px solid rgba(255,204,0,0.45);
+            background: rgba(255,204,0,0.05);
+          }
+          #services .service-card:nth-child(even) .service-icon {
+            border-color: rgba(255,204,0,0.6) !important; color: var(--gold, #FFCC00) !important;
+          }
+          #services .service-card:nth-child(even) .service-tag {
+            color: var(--gold, #FFCC00) !important;
+          }
+          /* gold card hover → CRIMSON glow (inverted) */
+          #services .service-card:nth-child(even):hover {
+            border-color: rgba(164,22,26,0.8);
+            background: rgba(164,22,26,0.07);
+            box-shadow: 0 0 26px rgba(164,22,26,0.5);
+          }
+          #services .service-card:nth-child(even):hover .service-icon,
+          #services .service-card:nth-child(even):hover .service-tag {
+            color: var(--crimson, #A4161A) !important; border-color: rgba(164,22,26,0.8) !important;
+          }
+
           #services .service-icon {
             width: 44px !important; height: 44px !important;
             margin-bottom: 16px !important;
@@ -70,7 +116,10 @@ export default function Services() {
           #services .service-tag { opacity: 1 !important; transform: none !important; }
         }
 
-        /* ── MOBILE: staggered 2-column layout ── */
+        /* ── MOBILE: staggered 2-column layout with ALTERNATING colors ──
+           No hover on touch, so we bake the color rhythm in: cards
+           alternate crimson / gold in a checkerboard. Borders, tint,
+           glow, icon ring, and tag color all flip to match. */
         @media (max-width: 768px) {
           .services-grid {
             grid-template-columns: 1fr 1fr !important;
@@ -79,18 +128,63 @@ export default function Services() {
             padding-bottom: 34px;
           }
           .service-card {
-            border: 1px solid rgba(164,22,26,0.45) !important;
             border-radius: 3px;
             padding: 26px 18px !important;
-            background: rgba(164,22,26,0.05) !important;
             transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
           }
-          .service-card:active {
-            border-color: rgba(255,204,0,0.6) !important;
-            background: rgba(255,204,0,0.06) !important;
-            box-shadow: 0 0 18px rgba(255,204,0,0.25);
-          }
           .service-card:nth-child(even) { transform: translateY(34px); }
+
+          /* CHECKERBOARD on a 2-column grid:
+             positions 1,4,5,8 = crimson ; positions 2,3,6,7 = gold.
+             That's 4n+1 & 4n (crimson) and 4n+2 & 4n+3 (gold), so the
+             color flips by column AND row — no two same colors touch. */
+
+          /* CRIMSON cards: 1st, 4th, 5th, 8th ... */
+          #services .service-card:nth-child(4n+1),
+          #services .service-card:nth-child(4n) {
+            border: 1px solid rgba(164,22,26,0.55) !important;
+            background: rgba(164,22,26,0.06) !important;
+            box-shadow: 0 0 16px rgba(164,22,26,0.20);
+          }
+          #services .service-card:nth-child(4n+1) .service-icon,
+          #services .service-card:nth-child(4n) .service-icon {
+            border-color: rgba(164,22,26,0.6) !important;
+            color: var(--crimson, #A4161A) !important;
+          }
+          #services .service-card:nth-child(4n+1) .service-tag,
+          #services .service-card:nth-child(4n) .service-tag {
+            color: var(--crimson, #A4161A) !important;
+          }
+          /* crimson card tap → GOLD glow (inverted) */
+          #services .service-card:nth-child(4n+1):active,
+          #services .service-card:nth-child(4n):active {
+            border-color: #FFCC00 !important;
+            box-shadow: 0 0 24px rgba(255,204,0,0.55);
+          }
+
+          /* GOLD cards: 2nd, 3rd, 6th, 7th ... */
+          #services .service-card:nth-child(4n+2),
+          #services .service-card:nth-child(4n+3) {
+            border: 1px solid rgba(255,204,0,0.55) !important;
+            background: rgba(255,204,0,0.06) !important;
+            box-shadow: 0 0 16px rgba(255,204,0,0.20);
+          }
+          #services .service-card:nth-child(4n+2) .service-icon,
+          #services .service-card:nth-child(4n+3) .service-icon {
+            border-color: rgba(255,204,0,0.6) !important;
+            color: var(--gold, #FFCC00) !important;
+          }
+          #services .service-card:nth-child(4n+2) .service-tag,
+          #services .service-card:nth-child(4n+3) .service-tag {
+            color: var(--gold, #FFCC00) !important;
+          }
+          /* gold card tap → CRIMSON glow (inverted) */
+          #services .service-card:nth-child(4n+2):active,
+          #services .service-card:nth-child(4n+3):active {
+            border-color: #A4161A !important;
+            box-shadow: 0 0 24px rgba(164,22,26,0.55);
+          }
+
           #services .service-icon {
             width: 46px !important; height: 46px !important;
             margin-bottom: 16px !important;
