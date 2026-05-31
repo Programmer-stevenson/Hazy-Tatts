@@ -30,6 +30,22 @@ export default function About() {
           display: block;
         }
 
+        /* Anchor the "6+ Years" badge to the PHOTO itself so it stays pinned
+           to the bottom-right corner on every viewport. The frame must allow
+           the overhang to show. */
+        #about .about-frame {
+          position: relative;
+          overflow: visible;
+        }
+        #about .about-stat {
+          position: absolute !important;
+          right: 0;
+          bottom: 0;
+          transform: translateY(50%);   /* center sits on the bottom border */
+          margin: 0 !important;
+          z-index: 3;
+        }
+
         /* Mobile-only heading shown above the photo (hidden on desktop) */
         #about .about-heading-mobile { display: none; }
 
@@ -46,6 +62,9 @@ export default function About() {
           #about .about-text .gold-line { display: none; }
 
           #about .about-text .section-body { text-align: center; }
+
+          /* More breathing room between the photo and the paragraph on mobile */
+          #about .about-visual { margin-bottom: 40px; }
 
           /* Feature blocks in 2 columns for a cleaner, elegant grid */
           #about .about-features {
@@ -99,10 +118,11 @@ export default function About() {
               <img className="about-portrait" src="/hailey.jpg" alt="Hailey 'Hazey' — tattoo artist at Marauder Tattoo" />
               <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(22,26,29,0.5), transparent 60%)" }}></div>
             </div>
-          </div>
-          <div className="about-stat">
-            <div className="about-stat-num">6+</div>
-            <div className="about-stat-label">Years Tattooing</div>
+            {/* Badge lives INSIDE the frame so it pins to the photo on all viewports */}
+            <div className="about-stat">
+              <div className="about-stat-num">6+</div>
+              <div className="about-stat-label">Years Tattooing</div>
+            </div>
           </div>
         </div>
 

@@ -11,8 +11,8 @@ export function Banner() {
   return (
     <div className="parallax-banner reveal">
       <h2 className="banner-title">Your Story, <em style={{ fontStyle: "italic" }}>Permanently</em> Told</h2>
-      <p className="banner-sub">Every tattoo is a collaboration between your vision and Hazey's artistry. Need to reach the studio right away?</p>
-      <a href="tel:+13854958436" className="btn-gold" style={{ position: "relative", zIndex: 2 }}>✦ Call Now — (385) 495-8436</a>
+      <p className="banner-sub">Every tattoo is a collaboration between your vision and Hazey's artistry. Need to reach me right away?</p>
+      <a href="tel:+13854958436" className="btn-gold" style={{ position: "relative", zIndex: 2 }}>✦ Call Now — (801) 440-6561</a>
     </div>
   );
 }
