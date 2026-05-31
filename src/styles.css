@@ -845,27 +845,30 @@
 
 
 /* ════════════════════════════════════════════════════════════
-   NAVBAR TOP FIX (nav-only)
+   NAVBAR TOP FIX — targets #navbar (the real id in Navbar.jsx)
 
-   The navbar is fixed at top:0 but only 72px tall and transparent
-   until scroll, so on iOS the status-bar strip shows the page
-   behind it. Fix: make the navbar tall enough to include the
-   safe-area inset, give it a SOLID background at all times, and
-   pad its content down so the logo/menu sit below the status bar.
+   Confirmed cause: the base navbar has NO background; it's fully
+   transparent until you scroll 60px (.scrolled). On iOS the status-
+   bar strip therefore shows the page THROUGH the navbar at the top
+   of the page. Fix: give #navbar a solid background at all times
+   and extend it through the safe-area inset. Using the #navbar id
+   so it beats the plain `nav` selector and can't be overridden.
    ════════════════════════════════════════════════════════════ */
 
 html, body, #root { margin: 0 !important; padding: 0 !important; }
 
-nav {
+#navbar {
+  position: fixed !important;
   top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
   height: calc(72px + env(safe-area-inset-top, 0px)) !important;
   padding-top: env(safe-area-inset-top, 0px) !important;
   box-sizing: border-box !important;
-  background: #0D0F11 !important;          /* solid, even before scroll */
+  background: #0D0F11 !important;   /* solid from first paint */
+  z-index: 1000 !important;
 }
 
-/* When scrolled, keep it solid (was translucent rgba .85) */
-nav.scrolled {
+#navbar.scrolled {
   background: rgba(13,15,17,0.98) !important;
-  backdrop-filter: blur(20px);
 }
