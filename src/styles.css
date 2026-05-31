@@ -252,8 +252,8 @@
 
   /* ─── HERO ─── */
   #hero {
-    min-height: 100vh;        /* fallback for older browsers */
-    min-height: 100svh;       /* fixes mobile address-bar gap */
+    min-height: 100vh;
+    min-height: 100svh;
     position: relative;
     display: flex; align-items: center; justify-content: center;
     overflow: hidden;
@@ -768,9 +768,7 @@
 
 
 /* ════════════════════════════════════════════════════════════
-   CRIMSON ACCENTS — added per request ("a little more crimson").
-   Gold remains the primary accent; crimson is layered in as a
-   warm secondary throughout. These rules come last so they win.
+   CRIMSON ACCENTS
    ════════════════════════════════════════════════════════════ */
 :root {
   --crimson-glow: rgba(164,22,26,0.18);
@@ -778,7 +776,6 @@
   --wine-glow: rgba(102,7,8,0.22);
 }
 
-/* Hero gets a stronger crimson wash */
 .hero-bg {
   background:
     radial-gradient(ellipse 60% 80% at 80% 50%, rgba(102,7,8,0.30) 0%, transparent 60%),
@@ -787,33 +784,27 @@
     linear-gradient(180deg, #0D0F11 0%, #161A1D 50%, #0D0F11 100%) !important;
 }
 
-/* Gold lines now bleed into crimson */
 .gold-line {
   background: linear-gradient(to right, var(--gold), var(--crimson)) !important;
   box-shadow: 0 0 10px rgba(255,204,0,0.45), 0 0 14px var(--crimson-glow) !important;
 }
 
-/* Section tags pick up a crimson edge */
 .section-tag, .hero-tag { text-shadow: 0 0 18px var(--crimson-glow); }
 
-/* Loader bar warms toward crimson */
 .loader-bar-fill {
   background: linear-gradient(to right, var(--gold), var(--crimson)) !important;
   box-shadow: 0 0 10px var(--gold), 0 0 16px var(--crimson-glow) !important;
 }
 
-/* Popup border + glow get crimson depth */
 .popup-card {
   border-color: rgba(164,22,26,0.35) !important;
   box-shadow: 0 0 60px var(--crimson-dim), 0 40px 80px rgba(0,0,0,0.6) !important;
 }
 
-/* Gallery hover frame shifts to crimson */
 .gallery-item:hover .gallery-glow {
   box-shadow: inset 0 0 0 1px rgba(164,22,26,0.45), inset 0 0 30px var(--crimson-dim) !important;
 }
 
-/* Service icon hover glows crimson */
 .service-card:hover .service-icon {
   box-shadow: 0 0 20px var(--crimson-glow) !important;
   border-color: rgba(164,22,26,0.45);
@@ -822,22 +813,18 @@
   background: linear-gradient(135deg, rgba(164,22,26,0.10) 0%, transparent 60%) !important;
 }
 
-/* Testimonial accents */
 .testimonial-quote { color: var(--crimson) !important; }
 .testimonial-avatar { border-color: rgba(164,22,26,0.45) !important; }
 
-/* Banner deepens its crimson core */
 .parallax-banner {
   background: linear-gradient(135deg, var(--crimson) 0%, var(--wine) 45%, var(--graphite) 100%) !important;
 }
 
-/* About frame corner marks: one gold, one crimson */
 .about-frame-deco-2 {
   border-bottom-color: var(--crimson) !important;
   border-right-color: var(--crimson) !important;
 }
 
-/* Social + form focus get a crimson kiss */
 .social-btn:hover {
   border-color: var(--crimson) !important;
   color: var(--crimson) !important;
@@ -848,47 +835,21 @@
   box-shadow: 0 0 20px var(--crimson-dim) !important;
 }
 
-/* Nav CTA hover warms up */
 .nav-cta:hover {
   background: rgba(164,22,26,0.12) !important;
   box-shadow: 0 0 20px var(--crimson-glow) !important;
   border-color: rgba(164,22,26,0.5);
 }
 
-/* A couple of crimson hero particles handled in JS via .particle.crimson */
 .particle.crimson { background: var(--crimson) !important; box-shadow: 0 0 6px var(--crimson); }
-html {
-  background: var(--graphite);   /* same as body, so any gap matches */
-}
-html, body, #root {
-  margin: 0 !important;
-  padding: 0 !important;
-}
-#root {
-  overflow: hidden;   /* contains any escaping top margin */
-}
-/* ── TOP-GAP FIX (place at very end of your CSS) ───────────────
-   Belt-and-suspenders: match the html background to the page so
-   any sliver is invisible, zero out wrapper spacing, and stop the
-   first child's margin from collapsing through the top. */
 
-html {
-  background: var(--graphite);   /* any peeking gap now matches the page */
-}
 
-html, body, #root {
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-/* Margin-collapse is the usual cause: the first section/nav's top
-   margin escapes and pushes everything down. A 1px transparent
-   border on #root traps it without affecting layout or fixed els. */
-#root {
-  border-top: 1px solid transparent;
-}
-
-/* Make sure the very first thing in the app has no top margin. */
-#root > *:first-child {
-  margin-top: 0 !important;
-}
+/* ════════════════════════════════════════════════════════════
+   TOP-GAP FIX — single consolidated block (replaces the earlier
+   duplicated/conflicting versions). No overflow:hidden on #root,
+   no transparent top-border. Just: match html bg, zero wrappers,
+   and absorb the iOS safe-area inset so the top sits flush.
+   ════════════════════════════════════════════════════════════ */
+html { background: var(--graphite); }
+html, body, #root { margin: 0 !important; padding: 0 !important; }
+#root > *:first-child { margin-top: 0 !important; }
