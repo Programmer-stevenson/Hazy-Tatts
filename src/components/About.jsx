@@ -22,11 +22,30 @@ export default function About() {
           width: 84%; height: 84%; object-fit: contain;
         }
 
+        /* Hailey's photo fills the square placeholder */
+        #about .about-portrait {
+          position: absolute; inset: 0;
+          width: 100%; height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
+        /* Mobile-only heading shown above the photo (hidden on desktop) */
+        #about .about-heading-mobile { display: none; }
+
         @media (max-width: 768px) {
+          /* Show heading above the photo, hide the in-text duplicate */
+          #about .about-heading-mobile {
+            display: block;
+            text-align: center;
+            margin-bottom: 28px;
+          }
+          #about .about-heading-mobile .gold-line { margin-left: auto; margin-right: auto; }
           #about .about-text .section-tag,
           #about .about-text .section-title,
+          #about .about-text .gold-line { display: none; }
+
           #about .about-text .section-body { text-align: center; }
-          #about .about-text .gold-line { margin-left: auto; margin-right: auto; }
 
           /* Feature blocks in 2 columns for a cleaner, elegant grid */
           #about .about-features {
@@ -68,18 +87,16 @@ export default function About() {
 
       <div className="about-grid">
         <div className="about-visual reveal">
+          <div className="about-heading-mobile">
+            <span className="section-tag">✦ The Artist</span>
+            <h2 className="section-title">Precision.<br /><em>Passion.</em><br />Permanence.</h2>
+            <div className="gold-line"></div>
+          </div>
           <div className="about-frame">
             <div className="about-frame-deco"></div>
             <div className="about-frame-deco-2"></div>
             <div className="about-placeholder">
-              <svg viewBox="0 0 320 420" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "80%", height: "80%", opacity: 0.15 }}>
-                <circle cx="160" cy="160" r="100" stroke="#FFCC00" strokeWidth="0.8" />
-                <path d="M80 160 Q160 80 240 160 Q160 240 80 160Z" stroke="#FFCC00" strokeWidth="0.5" />
-                <circle cx="160" cy="160" r="50" stroke="#FFCC00" strokeWidth="0.5" strokeDasharray="4 4" />
-                <line x1="60" y1="320" x2="260" y2="320" stroke="#FFCC00" strokeWidth="0.5" />
-                <line x1="90" y1="340" x2="230" y2="340" stroke="#FFCC00" strokeWidth="0.3" />
-                <text x="160" y="390" textAnchor="middle" fill="#FFCC00" fontSize="14" letterSpacing="4" fontFamily="serif" opacity="0.6">HAZEY</text>
-              </svg>
+              <img className="about-portrait" src="/hailey.jpg" alt="Hailey 'Hazey' — tattoo artist at Marauder Tattoo" />
               <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(22,26,29,0.5), transparent 60%)" }}></div>
             </div>
           </div>

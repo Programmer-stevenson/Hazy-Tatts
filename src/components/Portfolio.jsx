@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { galleryData, makeGalleryArt } from "../data";
 import Lightbox from "./Lightbox";
 
 const filters = [
@@ -11,12 +10,134 @@ const filters = [
   ["stippling", "Stippling"],
 ];
 
+// Real client photos. Drop these files into your /public folder with the
+// exact same filenames. Order matters: the first 4 are the featured pieces
+// shown before "Show More".
+const customPieces = [
+  // ── Featured (best work) — these lead the gallery ──
+  { img: "/ninjacat.jpg",          name: "Masked Dagger",       cat: "illustrative" },
+  { img: "/bgskeles.jpg",          name: "The Lovers",          cat: "illustrative" },
+  { img: "/bgsnake.jpg",           name: "Serpent & Blossoms",  cat: "illustrative" },
+  { img: "/bgangel.jpg",           name: "Angel Statue",        cat: "realism" },
+
+  // ── Illustrative B&G ──
+  { img: "/crow.jpg",              name: "Raven in Flight",     cat: "illustrative" },
+  { img: "/monkeybox.jpg",         name: "Boxing Monkey",       cat: "illustrative" },
+  { img: "/bg_lilly.jpg",          name: "Black & Grey Peony",  cat: "illustrative" },
+  { img: "/bgskullcow.jpg",        name: "Outlaw Skull",        cat: "illustrative" },
+  { img: "/bgastrosnow.jpg",       name: "Cosmic Snowboarder",  cat: "illustrative" },
+  { img: "/bg_daisies.jpg",        name: "Wildflower Spray",    cat: "illustrative" },
+  { img: "/bgbutterfly.jpg",       name: "Moth",                cat: "illustrative" },
+  { img: "/bgspacealli.jpg",       name: "Space Gator",         cat: "illustrative" },
+  { img: "/dottedvamp.jpg",        name: "Dotwork Vamp",        cat: "illustrative" },
+  { img: "/bgfishgren.jpg",        name: "Goldfish & Blossoms", cat: "illustrative" },
+  { img: "/bgskull.jpg",           name: "Dragon Skull",        cat: "illustrative" },
+  { img: "/bgfrogandshroom.jpg",   name: "Frog & Toadstool",    cat: "illustrative" },
+  { img: "/bgflowers.jpg",         name: "Paw & Blossoms",      cat: "illustrative" },
+
+  // ── Traditional ──
+  { img: "/colorskullflower.jpg",  name: "Skull Bloom",         cat: "traditional" },
+  { img: "/colorking.jpg",         name: "The King",            cat: "traditional" },
+  { img: "/colorjaderock.jpg",     name: "Moonlit Crystal",     cat: "traditional" },
+  { img: "/colorarcade.jpg",       name: "Arcade Cabinet",      cat: "traditional" },
+  { img: "/colorknife.jpg",        name: "Dagger & Hannya",     cat: "traditional" },
+  { img: "/burnchurch.jpg",        name: "Burning Church",      cat: "traditional" },
+  { img: "/color2flower.jpg",      name: "Pink Blossoms",       cat: "traditional" },
+  { img: "/colorflow.jpg",         name: "Traditional Bloom",   cat: "traditional" },
+  { img: "/colorshroom.jpg",       name: "Mushroom Mischief",   cat: "traditional" },
+  { img: "/colorpizza.jpg",        name: "Pizza Slice",         cat: "traditional" },
+  { img: "/web.jpg",               name: "Spider Web",          cat: "traditional" },
+  { img: "/chain.jpg",             name: "Ornamental Band",     cat: "traditional" },
+  { img: "/2jags.jpg",             name: "Twin Cats",           cat: "traditional" },
+  { img: "/jaguarbg.jpg",          name: "Prowling Leopard",    cat: "traditional" },
+  { img: "/heartmoon.jpg",         name: "Heart Moon",          cat: "traditional" },
+  { img: "/colorkang.jpg",         name: "Boxing Kangaroo",     cat: "traditional" },
+
+  // ── Fine line ──
+  { img: "/spruzzy.jpg",           name: "Soot Sprite",         cat: "fine-line" },
+  { img: "/heartlocks.jpg",        name: "Linked Hearts",       cat: "fine-line" },
+  { img: "/bgswirls.jpg",          name: "Botanical Spiral",    cat: "fine-line" },
+  { img: "/finelineflowers.jpg",   name: "Collarbone Florals",  cat: "fine-line" },
+  { img: "/finelinedeer.jpg",      name: "Resting Fawn",        cat: "fine-line" },
+  { img: "/finelinegrass.jpg",     name: "Mantis 'Girl Dinner'",cat: "fine-line" },
+
+  // ── Stippling ──
+  { img: "/grail.jpg",             name: "The Chalice",         cat: "stippling" },
+  { img: "/timburton.jpg",         name: "Kodama Spirits",      cat: "stippling" },
+  { img: "/bgstars.jpg",           name: "Dotwork Mandala",     cat: "stippling" },
+];
+
+const INITIAL_COUNT = 4;
+
 export default function Portfolio() {
   const [active, setActive] = useState("all");
+  const [showAll, setShowAll] = useState(false);
   const [lightbox, setLightbox] = useState(null); // { item, art }
+
+  const handleFilter = (key) => {
+    setActive(key);
+    setShowAll(false); // reset pagination when switching tabs
+  };
+
+  // Only real photos now (placeholder art removed).
+  const allPieces = customPieces.map((p) => ({
+    item: { name: p.name, cat: p.cat },
+    art: `<img src="${p.img}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;display:block;" />`,
+  }));
+
+  // Only show pieces in the active category (non-matching are hidden entirely)
+  const filtered = allPieces.filter(
+    (p) => active === "all" || p.item.cat === active
+  );
+
+  // Show only the first 4 unless expanded
+  const visible = showAll ? filtered : filtered.slice(0, INITIAL_COUNT);
+  const hasMore = filtered.length > INITIAL_COUNT;
 
   return (
     <section id="portfolio">
+      <style>{`
+        /* Make every gallery tile the same size so the grid looks even */
+        #portfolio .gallery-placeholder {
+          aspect-ratio: 1 / 1;   /* square tiles — change to 4 / 5 for portrait */
+          width: 100%;
+          overflow: hidden;
+        }
+        #portfolio .gallery-placeholder img,
+        #portfolio .gallery-placeholder svg {
+          width: 100% !important;
+          height: 100% !important;
+          object-fit: cover;
+          display: block;
+        }
+
+        /* Glowing border on every gallery tile (works on mobile + desktop).
+           Swap the gold values for crimson by replacing 255,204,0 with
+           164,22,26 and #FFCC00 with #A4161A. */
+        #portfolio .gallery-item {
+          border-radius: 10px;
+          border: 1px solid rgba(255,204,0,0.45);
+          box-shadow: 0 0 14px rgba(255,204,0,0.25);
+          transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+        }
+        #portfolio .gallery-item .gallery-placeholder {
+          border-radius: 10px;
+        }
+        /* Stronger glow on hover (desktop) */
+        @media (hover: hover) {
+          #portfolio .gallery-item:hover {
+            border-color: #FFCC00;
+            box-shadow: 0 0 28px rgba(255,204,0,0.6);
+            transform: translateY(-3px);
+          }
+        }
+        /* Tap feedback (mobile) */
+        #portfolio .gallery-item:active {
+          border-color: #FFCC00;
+          box-shadow: 0 0 32px rgba(255,204,0,0.65);
+        }
+      `}</style>
+
       <div className="portfolio-header reveal">
         <span className="section-tag">✦ The Work</span>
         <h2 className="section-title" style={{ fontSize: "clamp(2.5rem,5vw,4.5rem)" }}>
@@ -34,7 +155,7 @@ export default function Portfolio() {
             key={key}
             className={"filter-tab" + (active === key ? " active" : "")}
             data-filter={key}
-            onClick={() => setActive(key)}
+            onClick={() => handleFilter(key)}
           >
             {label}
           </button>
@@ -42,31 +163,58 @@ export default function Portfolio() {
       </div>
 
       <div className="gallery-grid" id="gallery-grid">
-        {galleryData.map((item, i) => {
-          const art = makeGalleryArt(item, i);
-          const match = active === "all" || item.cat === active;
-          return (
-            <div
-              key={i}
-              className="gallery-item reveal visible"
-              data-cat={item.cat}
-              style={{
-                transitionDelay: ((i % 3) * 0.1) + "s",
-                opacity: match ? 1 : 0.2,
-                transform: match ? "scale(1)" : "scale(0.96)",
-              }}
-              onClick={() => setLightbox({ item, art })}
-            >
-              <div className="gallery-placeholder" dangerouslySetInnerHTML={{ __html: art }} />
-              <div className="gallery-glow"></div>
-              <div className="gallery-overlay">
-                <span className="gallery-tag">{item.cat.replace("-", " ")}</span>
-                <div className="gallery-name">{item.name}</div>
-              </div>
+        {visible.map(({ item, art }, i) => (
+          <div
+            key={i}
+            className="gallery-item reveal visible"
+            data-cat={item.cat}
+            style={{ transitionDelay: ((i % 3) * 0.1) + "s" }}
+            onClick={() => setLightbox({ item, art })}
+          >
+            <div className="gallery-placeholder" dangerouslySetInnerHTML={{ __html: art }} />
+            <div className="gallery-glow"></div>
+            <div className="gallery-overlay">
+              <span className="gallery-tag">{item.cat.replace("-", " ")}</span>
+              <div className="gallery-name">{item.name}</div>
             </div>
-          );
-        })}
+          </div>
+        ))}
       </div>
+
+      {hasMore && (
+        <div style={{ textAlign: "center", marginTop: "40px" }}>
+          <button
+            onClick={() => setShowAll((v) => !v)}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "10px",
+              background: "transparent",
+              color: "var(--text, #EDEDED)",
+              border: "1px solid rgba(255,204,0,0.55)",
+              borderRadius: "6px",
+              padding: "14px 32px",
+              fontFamily: "'Jost', sans-serif",
+              fontSize: "0.75rem",
+              fontWeight: 500,
+              letterSpacing: "0.22em",
+              textTransform: "uppercase",
+              cursor: "pointer",
+              transition: "border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = "#FFCC00";
+              e.currentTarget.style.boxShadow = "0 0 24px rgba(255,204,0,0.3)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = "rgba(255,204,0,0.55)";
+              e.currentTarget.style.boxShadow = "none";
+            }}
+          >
+            {showAll ? "Show Less ✦" : `Show More ✦ (${filtered.length - INITIAL_COUNT})`}
+          </button>
+        </div>
+      )}
 
       <Lightbox data={lightbox} onClose={() => setLightbox(null)} />
     </section>
