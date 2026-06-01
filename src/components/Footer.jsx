@@ -75,6 +75,32 @@ export default function Footer() {
         .footer-base > div { text-align: center; }
         .footer-base .footer-links { align-items: center; }
 
+        /* Legal links row + Plexura credit in the bottom bar */
+        .footer-legal {
+          display: flex; align-items: center; justify-content: center;
+          flex-wrap: wrap; gap: 8px 16px;
+        }
+        .footer-legal a {
+          color: var(--muted, #9a9a9a);
+          text-decoration: none;
+          font-size: 0.78rem;
+          letter-spacing: 0.04em;
+          transition: color 0.3s ease;
+        }
+        .footer-legal a:hover { color: var(--gold, #FFCC00); }
+        .footer-legal .sep { color: rgba(255,204,0,0.35); }
+        .footer-credit {
+          font-size: 0.78rem;
+          letter-spacing: 0.04em;
+          color: var(--muted, #9a9a9a);
+        }
+        .footer-credit a {
+          color: var(--gold, #FFCC00);
+          text-decoration: none;
+          transition: opacity 0.3s ease;
+        }
+        .footer-credit a:hover { opacity: 0.75; }
+
         @media (max-width: 600px) {
           .footer-base { gap: 36px; }
           /* Lighten the load on mobile: show only the first 7 particles */
@@ -141,9 +167,21 @@ export default function Footer() {
 
       <div className="footer-bottom">
         <p className="footer-copy">© 2026 Hazey Tattoos · Murray, UT · All Rights Reserved</p>
+
+        <div className="footer-legal">
+          <a href="/terms">Terms of Service</a>
+          <span className="sep" aria-hidden="true">·</span>
+          <a href="/privacy">Privacy Policy</a>
+        </div>
+
         <div className="footer-social">
           <a href="https://instagram.com/hazeytattoos" target="_blank" rel="noreferrer">Instagram</a>
         </div>
+
+        <p className="footer-credit">
+          Designed by{" "}
+          <a href="https://www.plexura.net" target="_blank" rel="noreferrer">Plexura</a>
+        </p>
       </div>
     </footer>
   );

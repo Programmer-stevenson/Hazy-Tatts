@@ -41,8 +41,6 @@ const customPieces = [
   { img: "/colorjaderock.jpg",     name: "Moonlit Crystal",     cat: "traditional" },
   { img: "/colorarcade.jpg",       name: "Arcade Cabinet",      cat: "traditional" },
   { img: "/colorknife.jpg",        name: "Dagger & Hannya",     cat: "traditional" },
-  { img: "/burnchurch.jpg",        name: "Burning Church",      cat: "traditional" },
-  { img: "/color2flower.jpg",      name: "Pink Blossoms",       cat: "traditional" },
   { img: "/colorflow.jpg",         name: "Traditional Bloom",   cat: "traditional" },
   { img: "/colorshroom.jpg",       name: "Mushroom Mischief",   cat: "traditional" },
   { img: "/colorpizza.jpg",        name: "Pizza Slice",         cat: "traditional" },
@@ -62,7 +60,6 @@ const customPieces = [
   { img: "/finelinegrass.jpg",     name: "Mantis 'Girl Dinner'",cat: "fine-line" },
 
   // -- Stippling --
-  { img: "/grail.jpg",             name: "The Chalice",         cat: "stippling" },
   { img: "/timburton.jpg",         name: "Kodama Spirits",      cat: "stippling" },
   { img: "/bgstars.jpg",           name: "Dotwork Mandala",     cat: "stippling" },
 ];
