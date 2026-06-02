@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 
 // ⚠️ Replace with your Web3Forms access key (https://web3forms.com)
-const WEB3FORMS_ACCESS_KEY = "YOUR_WEB3FORMS_ACCESS_KEY";
+const WEB3FORMS_ACCESS_KEY = "c3449346-da48-4eaf-8ca8-4682c1a06945";
 
 export default function Contact() {
   const formRef = useRef(null);
