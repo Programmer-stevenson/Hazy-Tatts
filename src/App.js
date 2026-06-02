@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Cursor from "./components/Cursor";
 import Loader from "./components/Loader";
 import Popup from "./components/Popup";
@@ -15,8 +14,20 @@ import Ribbon from "./components/Ribbon";
 import Terms from "./components/Terms";
 import Privacy from "./components/Privacy";
 
-// Scroll reveal — same IntersectionObserver behavior as the original.
-function useScrollReveal() {
+export default function App() {
+  // Which "page" to show, based on the URL hash (#terms / #privacy).
+  const [route, setRoute] = useState(window.location.hash);
+
+  useEffect(() => {
+    const onHash = () => {
+      setRoute(window.location.hash);
+      window.scrollTo(0, 0);
+    };
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, []);
+
+  // Scroll reveal — same IntersectionObserver behavior as the original.
   useEffect(() => {
     const reveals = document.querySelectorAll(".reveal");
     const observer = new IntersectionObserver(
@@ -32,62 +43,39 @@ function useScrollReveal() {
     );
     reveals.forEach((r) => observer.observe(r));
     return () => observer.disconnect();
-  }, []);
-}
+  }, [route]);
 
-function HomePage() {
+  const isTerms = route === "#terms";
+  const isPrivacy = route === "#privacy";
+  const isLegal = isTerms || isPrivacy;
+
   return (
     <>
-      <Hero />
-      <Ribbon />
-      <About />
-      <Portfolio />
-      <Services />
-      <Banner />
-      <Testimonials />
-      <Contact />
-    </>
-  );
-}
-
-// Renders the loader + booking popup ONLY on the home page,
-// so they don't fire when viewing Terms or Privacy.
-function HomeOnlyExtras() {
-  const { pathname } = useLocation();
-  if (pathname !== "/") return null;
-  return (
-    <>
-      <Loader />
-      <Popup />
-    </>
-  );
-}
-
-// Jump to the top whenever the route changes, so legal pages
-// don't open scrolled halfway down.
-function ScrollToTop() {
-  const { pathname } = useLocation();
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
-  return null;
-}
-
-export default function App() {
-  useScrollReveal();
-
-  return (
-    <BrowserRouter>
-      <ScrollToTop />
       <Navbar />
       <Cursor />
-      <HomeOnlyExtras />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/terms" element={<Terms />} />
-        <Route path="/privacy" element={<Privacy />} />
-      </Routes>
+
+      {/* Loader + booking popup only on the main site, not legal pages */}
+      {!isLegal && <Loader />}
+      {!isLegal && <Popup />}
+
+      {isTerms ? (
+        <Terms />
+      ) : isPrivacy ? (
+        <Privacy />
+      ) : (
+        <>
+          <Hero />
+          <Ribbon />
+          <About />
+          <Portfolio />
+          <Services />
+          <Banner />
+          <Testimonials />
+          <Contact />
+        </>
+      )}
+
       <Footer />
-    </BrowserRouter>
+    </>
   );
 }

@@ -1,169 +1,188 @@
-export default function Terms() {
+import { useMemo } from "react";
+
+export default function Footer() {
+  // Floating particles like the hero. Kept modest (16); fewer show on mobile.
+  const particles = useMemo(
+    () =>
+      Array.from({ length: 16 }, (_, i) => {
+        const size = 1 + Math.random() * 3;
+        return {
+          crimson: i % 5 === 0,
+          style: {
+            left: `${Math.random() * 100}%`,
+            bottom: `${Math.random() * 30}%`,
+            width: `${size}px`,
+            height: `${size}px`,
+            animationDuration: `${9 + Math.random() * 14}s`,
+            animationDelay: `${Math.random() * 10}s`,
+          },
+        };
+      }),
+    []
+  );
+
   return (
-    <section id="terms" className="legal-page">
+    <footer style={{ position: "relative", overflow: "hidden" }}>
       <style>{`
-        .legal-page {
-          max-width: 820px;
-          margin: 0 auto;
-          padding: 140px 24px 100px;
-          position: relative;
-          z-index: 1;
+        /* Hero-style crimson wash behind the footer */
+        .footer-bg {
+          position: absolute; inset: 0; z-index: 0; pointer-events: none;
+          background:
+            radial-gradient(ellipse 60% 80% at 80% 30%, rgba(102,7,8,0.28) 0%, transparent 60%),
+            radial-gradient(ellipse 55% 65% at 18% 80%, rgba(164,22,26,0.20) 0%, transparent 55%),
+            radial-gradient(ellipse 40% 50% at 50% 10%, rgba(164,22,26,0.10) 0%, transparent 60%);
+          animation: footerGlow 9s ease-in-out infinite;
         }
-        .legal-page .legal-tag {
-          display: inline-block;
-          font-family: 'Jost', sans-serif;
-          font-size: 0.7rem;
-          letter-spacing: 0.28em;
-          text-transform: uppercase;
-          color: var(--gold, #FFCC00);
-          margin-bottom: 18px;
+        @keyframes footerGlow {
+          0%, 100% { opacity: 0.8; }
+          50%      { opacity: 1; }
         }
-        .legal-page h1 {
-          font-size: clamp(2.2rem, 5vw, 3.4rem);
-          line-height: 1.1;
-          margin: 0 0 12px;
+        .footer-particles {
+          position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
         }
-        .legal-page .legal-updated {
+        /* Keep footer content above the background layers */
+        footer > .footer-pyramid,
+        footer > .gold-divider,
+        footer > .footer-bottom { position: relative; z-index: 1; }
+
+        .footer-pyramid {
+          max-width: 1100px; margin: 0 auto 48px;
+          display: flex; flex-direction: column; align-items: center;
+          text-align: center; gap: 28px;
+        }
+        .footer-apex { max-width: 420px; }
+        .footer-apex .footer-tagline { margin: 0 auto; }
+
+        .footer-ig-big {
+          width: 64px; height: 64px;
+          display: flex; align-items: center; justify-content: center;
+          border: 1px solid rgba(255,204,0,0.4);
+          border-radius: 14px; color: var(--gold);
+          text-decoration: none; cursor: pointer;
+          transition: border-color 0.3s, color 0.3s, box-shadow 0.3s, transform 0.3s;
+        }
+        .footer-ig-big:hover {
+          border-color: var(--crimson, #A4161A);
+          color: var(--crimson, #A4161A);
+          box-shadow: 0 0 26px var(--crimson-glow, rgba(164,22,26,0.45));
+          transform: translateY(-3px);
+        }
+
+        .footer-base {
+          display: flex; justify-content: center; flex-wrap: wrap;
+          gap: 64px; width: 100%;
+        }
+        .footer-base > div { text-align: center; }
+        .footer-base .footer-links { align-items: center; }
+
+        /* Legal links row + Plexura credit in the bottom bar */
+        .footer-legal {
+          display: flex; align-items: center; justify-content: center;
+          flex-wrap: wrap; gap: 8px 16px;
+        }
+        .footer-legal a {
           color: var(--muted, #9a9a9a);
-          font-size: 0.82rem;
-          letter-spacing: 0.06em;
-          margin-bottom: 40px;
+          text-decoration: none;
+          font-size: 0.78rem;
+          letter-spacing: 0.04em;
+          transition: color 0.3s ease;
         }
-        .legal-page .gold-line {
-          width: 60px; height: 2px;
-          background: var(--gold, #FFCC00);
-          margin: 0 0 40px;
-          box-shadow: 0 0 14px rgba(255,204,0,0.5);
+        .footer-legal a:hover { color: var(--gold, #FFCC00); }
+        .footer-legal .sep { color: rgba(255,204,0,0.35); }
+        .footer-credit {
+          font-size: 0.78rem;
+          letter-spacing: 0.04em;
+          color: var(--muted, #9a9a9a);
         }
-        .legal-page h2 {
-          font-size: 1.25rem;
-          margin: 38px 0 12px;
-          color: var(--text, #EDEDED);
+        .footer-credit a {
+          color: var(--gold, #FFCC00);
+          text-decoration: none;
+          transition: opacity 0.3s ease;
         }
-        .legal-page p,
-        .legal-page li {
-          color: var(--muted, #b4b4b4);
-          line-height: 1.9;
-          font-size: 0.95rem;
-        }
-        .legal-page ul { padding-left: 22px; margin: 10px 0; }
-        .legal-page li { margin-bottom: 8px; }
-        .legal-page .legal-intro { font-size: 1.02rem; color: var(--text, #d8d8d8); }
-        .legal-page a { color: var(--gold, #FFCC00); text-decoration: none; }
-        .legal-page a:hover { opacity: 0.8; }
-        .legal-page .legal-contact {
-          margin-top: 48px;
-          padding: 22px 24px;
-          border: 1px solid rgba(255,204,0,0.25);
-          border-radius: 12px;
-          background: rgba(255,204,0,0.03);
+        .footer-credit a:hover { opacity: 0.75; }
+
+        @media (max-width: 600px) {
+          .footer-base { gap: 36px; }
+          /* Lighten the load on mobile: show only the first 7 particles */
+          .footer-particles .particle:nth-child(n+8) { display: none; }
+          /* Center the bottom copyright + Instagram link, stacked */
+          footer > .footer-bottom { flex-direction: column; align-items: center; text-align: center; gap: 12px; }
+          footer > .footer-bottom .footer-copy { text-align: center; width: 100%; }
+          footer > .footer-bottom .footer-social { justify-content: center; width: 100%; text-align: center; }
         }
       `}</style>
 
-      <span className="legal-tag">✦ Legal</span>
-      <h1>Terms of Service</h1>
-      <p className="legal-updated">Last updated: May 2026 · Governed by the laws of the State of Utah</p>
-      <div className="gold-line"></div>
+      {/* Background layers */}
+      <div className="footer-bg"></div>
+      <div className="footer-particles">
+        {particles.map((p, i) => (
+          <div key={i} className={"particle" + (p.crimson ? " crimson" : "")} style={p.style}></div>
+        ))}
+      </div>
 
-      <p className="legal-intro">
-        These Terms of Service ("Terms") govern your use of the Hazey Tattoos website and the
-        tattoo services provided by Hazey Tattoos at Marauder Tattoo in Murray, Utah. By booking an
-        appointment, paying a deposit, or receiving a tattoo, you agree to these Terms. Please read
-        them carefully.
-      </p>
+      <div className="footer-pyramid">
+        {/* Apex */}
+        <div className="footer-apex">
+          <a href="#hero" className="footer-logo">Hazey <span>Tattoos</span></a>
+          <p className="footer-tagline">Illustrative black and grey tattoo artistry at Marauder Tattoo in Murray, Utah. Traditional, fine line, stippling, and black and grey realism.</p>
+        </div>
 
-      <h2>1. Age requirement</h2>
-      <p>
-        Under Utah law, you must be at least 18 years old to receive a tattoo, and we require a
-        valid government-issued photo ID at your appointment. We do not tattoo minors, and we do not
-        accept parental or guardian consent as a substitute for the legal age requirement. If we
-        cannot verify that you are 18 or older, your appointment will be cancelled and your deposit
-        forfeited.
-      </p>
+        {/* Large Instagram logo */}
+        <a href="https://instagram.com/hazeytattoos" target="_blank" rel="noreferrer" className="footer-ig-big" aria-label="Instagram">
+          <svg width="34" height="34" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" /></svg>
+        </a>
 
-      <h2>2. Consent and health disclosure</h2>
-      <p>
-        Before any tattoo, you must complete and sign our consent and release form and disclose
-        relevant health information, including allergies, skin conditions, bleeding disorders,
-        pregnancy or nursing, and any medications or conditions that may affect healing. We reserve
-        the right to decline or postpone service if we believe a tattoo would pose a health or
-        safety risk.
-      </p>
+        {/* Base row of columns (the pyramid's wide base) */}
+        <div className="footer-base">
+          <div>
+            <p className="footer-col-title">Navigation</p>
+            <ul className="footer-links">
+              <li><a href="#hero">Home</a></li>
+              <li><a href="#portfolio">Portfolio</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#services">Services</a></li>
+            </ul>
+          </div>
+          <div>
+            <p className="footer-col-title">Services</p>
+            <ul className="footer-links">
+              <li><a href="#services">Illustrative B&amp;G</a></li>
+              <li><a href="#services">B&amp;G Realism</a></li>
+              <li><a href="#services">Traditional</a></li>
+              <li><a href="#services">Fine Line</a></li>
+            </ul>
+          </div>
+          <div>
+            <p className="footer-col-title">Connect</p>
+            <ul className="footer-links">
+              <li><a href="#contact">Book Appointment</a></li>
+              <li><a href="https://instagram.com/hazeytattoos" target="_blank" rel="noreferrer">Instagram</a></li>
+              <li><a href="mailto:hello@hazeytattoos.com">Email</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
 
-      <h2>3. Booking, deposits, and payment</h2>
-      <ul>
-        <li>A non-refundable deposit is required to reserve your appointment and is applied toward the final cost of your tattoo.</li>
-        <li>Deposits are forfeited for no-shows, same-day cancellations, or arriving without valid ID.</li>
-        <li>Custom design time is reserved specifically for you; deposits cover that work and are non-refundable.</li>
-        <li>Final pricing depends on size, placement, detail, and time. Quotes are estimates until the work is complete.</li>
-      </ul>
+      <div className="gold-divider"></div>
 
-      <h2>4. Rescheduling and cancellations</h2>
-      <p>
-        Please provide at least 48 hours' notice to reschedule and keep your deposit. Cancellations
-        with less notice, repeated rescheduling, or no-shows may require a new deposit before we
-        book again.
-      </p>
+      <div className="footer-bottom">
+        <p className="footer-copy">© 2026 Hazey Tattoos · Murray, UT · All Rights Reserved</p>
 
-      <h2>5. Designs and intellectual property</h2>
-      <p>
-        All custom artwork, drawings, and designs created by the artist remain the intellectual
-        property of Hazey Tattoos unless otherwise agreed in writing. Designs are created for your
-        individual tattoo and may not be reproduced, resold, or used by other artists. We may
-        photograph completed work and display it in our portfolio, on social media, and on this
-        website unless you request otherwise in writing.
-      </p>
+        <div className="footer-legal">
+          <a href="#terms">Terms of Service</a>
+          <span className="sep" aria-hidden="true">·</span>
+          <a href="#privacy">Privacy Policy</a>
+        </div>
 
-      <h2>6. Aftercare and results</h2>
-      <p>
-        Proper healing depends heavily on following the aftercare instructions we provide. Tattoos
-        are permanent, and final appearance can vary based on skin type, placement, sun exposure,
-        and aftercare. We are not responsible for fading, distortion, or infection that results from
-        failure to follow aftercare guidance or from picking, scratching, or improper care.
-      </p>
+        <div className="footer-social">
+          <a href="https://instagram.com/hazeytattoos" target="_blank" rel="noreferrer">Instagram</a>
+        </div>
 
-      <h2>7. Touch-ups</h2>
-      <p>
-        Minor touch-ups may be offered at our discretion within a reasonable window after healing.
-        Touch-ups needed due to neglect of aftercare, excessive sun, or other client-caused factors
-        may incur a charge.
-      </p>
-
-      <h2>8. Conduct and right to refuse service</h2>
-      <p>
-        We reserve the right to refuse or stop service for anyone who is intoxicated, under the
-        influence of drugs or alcohol, abusive, or otherwise unfit to be tattooed safely. Clients
-        under the influence cannot legally consent and will be turned away with deposit forfeited.
-      </p>
-
-      <h2>9. Assumption of risk and limitation of liability</h2>
-      <p>
-        Tattooing carries inherent risks, including allergic reaction, infection, and scarring, even
-        when proper procedures are followed. By receiving a tattoo, you acknowledge and assume these
-        risks. To the fullest extent permitted by Utah law, our liability for any claim arising from
-        our services is limited to the amount you paid for the service in question.
-      </p>
-
-      <h2>10. Governing law</h2>
-      <p>
-        These Terms are governed by the laws of the State of Utah, without regard to its
-        conflict-of-laws rules. Any dispute will be brought in the state or federal courts located
-        in Salt Lake County, Utah.
-      </p>
-
-      <h2>11. Changes to these Terms</h2>
-      <p>
-        We may update these Terms from time to time. Material changes will be posted on this page
-        with a new "last updated" date. Continued use of our services after changes take effect
-        means you accept the updated Terms.
-      </p>
-
-      <div className="legal-contact">
-        <p style={{ margin: 0 }}>
-          Questions about these Terms? Email us at{" "}
-          <a href="mailto:hello@hazeytattoos.com">hello@hazeytattoos.com</a>.
+        <p className="footer-credit">
+          Designed by{" "}
+          <a href="https://www.plexura.net" target="_blank" rel="noreferrer">Plexura</a>
         </p>
       </div>
-    </section>
+    </footer>
   );
 }

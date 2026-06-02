@@ -169,9 +169,9 @@ export default function Footer() {
         <p className="footer-copy">© 2026 Hazey Tattoos · Murray, UT · All Rights Reserved</p>
 
         <div className="footer-legal">
-          <a href="/terms">Terms of Service</a>
+          <a href="#terms">Terms of Service</a>
           <span className="sep" aria-hidden="true">·</span>
-          <a href="/privacy">Privacy Policy</a>
+          <a href="#privacy">Privacy Policy</a>
         </div>
 
         <div className="footer-social">
